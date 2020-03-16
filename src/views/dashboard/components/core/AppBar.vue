@@ -16,7 +16,6 @@
     />
 
     <v-spacer />
-
     <v-text-field
       class="title"
       :label="$t('search')"

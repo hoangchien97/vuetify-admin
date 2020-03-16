@@ -25,7 +25,13 @@
                 </v-col>
 
                 <v-col cols="12" md="4">
-                  <v-text-field label="Email Address" class="purple-input" />
+                  <v-text-field
+                    v-model="email"
+                    :rules="[rules.required, rules.email]"
+                    label="Email Address"
+                    class="purple-input"
+                    prepend-icon="mdi-mail"
+                  />
                 </v-col>
 
                 <v-col cols="12" md="6">
@@ -108,5 +114,18 @@
 <script>
 export default {
   //
+  data() {
+    return {
+      email: "",
+      rules: {
+        required: value => !!value || "Field is required.",
+        min: v => v.length >= 6 || "Min 6 characters",
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || "Invalid e-mail."
+        },
+      },
+    }
+  },
 }
 </script>
