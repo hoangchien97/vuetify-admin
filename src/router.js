@@ -9,7 +9,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: () => import("@/views/dashboard/Index"),
+      component: () => import("@/views/Index"),
       children: [
         // Dashboard
         {
@@ -21,47 +21,46 @@ export default new Router({
         {
           name: "User Profile",
           path: "pages/user",
-          component: () => import("@/views/dashboard/pages/UserProfile"),
+          component: () => import("@/views/users/UserProfile"),
         },
         {
           name: "Notifications",
           path: "components/notifications",
-          component: () => import("@/views/dashboard/component/Notifications"),
+          component: () => import("@/views/component/Notifications"),
         },
         {
           name: "Icons",
           path: "components/icons",
-          component: () => import("@/views/dashboard/component/Icons"),
+          component: () => import("@/views/component/Icons"),
         },
         {
           name: "Typography",
           path: "components/typography",
-          component: () => import("@/views/dashboard/component/Typography"),
+          component: () => import("@/views/component/Typography"),
         },
         // Tables
         {
           name: "Regular Tables",
           path: "tables/regular-tables",
-          component: () => import("@/views/dashboard/tables/RegularTables"),
+          component: () => import("@/views/tables/RegularTables"),
         },
         // Maps
         {
           name: "Google Maps",
           path: "maps/google-maps",
-          component: () => import("@/views/dashboard/maps/GoogleMaps"),
+          component: () => import("@/views/maps/GoogleMaps"),
         },
         // Upgrade
         {
           name: "Upgrade",
           path: "upgrade",
-          component: () => import("@/views/dashboard/Upgrade"),
+          component: () => import("@/views/Upgrade"),
         },
         // VeeValidate
         {
           name: "Vee Validate",
           path: "components/vee-validate",
-          component: () =>
-            import("@/views/dashboard/component/FormVeeValidate"),
+          component: () => import("@/views/FormVeeValidate"),
         },
       ],
     },

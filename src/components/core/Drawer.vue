@@ -61,6 +61,20 @@
         }"
       />
     </template>
+    <!-- <v-list-tile
+      @click="onLogout"
+      active-class="primary"
+      class="v-list-item v-list__tile--buy"
+    >
+      <v-list-tile-action>
+        <v-icon>
+          mdi-backburger
+        </v-icon>
+      </v-list-tile-action>
+      <v-list-tile-title class="font-weight-light">
+        Logout
+      </v-list-tile-title>
+    </v-list-tile> -->
   </v-navigation-drawer>
 </template>
 
