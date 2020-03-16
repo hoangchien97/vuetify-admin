@@ -1,12 +1,8 @@
-import Vue from 'vue'
-import {
-  extend,
-  ValidationObserver,
-  ValidationProvider,
-} from 'vee-validate'
+import Vue from "vue"
+import { extend, ValidationObserver, ValidationProvider } from "vee-validate"
 
-import * as rules from 'vee-validate/dist/rules'
-import { messages } from 'vee-validate/dist/locale/en.json'
+import * as rules from "vee-validate/dist/rules"
+import { messages } from "vee-validate/dist/locale/en.json"
 
 Object.keys(rules).forEach(rule => {
   extend(rule, {
@@ -15,5 +11,5 @@ Object.keys(rules).forEach(rule => {
   })
 })
 
-Vue.component('validation-provider', ValidationProvider)
-Vue.component('validation-observer', ValidationObserver)
+Vue.component("validation-provider", ValidationProvider)
+Vue.component("validation-observer", ValidationObserver)
