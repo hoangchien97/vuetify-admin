@@ -31,6 +31,7 @@
     <v-spacer />
 
     <v-text-field
+      class="title"
       :label="$t('search')"
       color="secondary"
       hide-details
@@ -181,3 +182,10 @@
     },
   }
 </script>
+
+<style lang="scss" scoped>
+@import "@/assets/style/scss/index.scss";
+.title {
+  color: $purple;
+}
+</style>
