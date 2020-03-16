@@ -56,6 +56,13 @@ export default new Router({
           path: "upgrade",
           component: () => import("@/views/dashboard/Upgrade"),
         },
+        // VeeValidate
+        {
+          name: "Vee Validate",
+          path: "components/vee-validate",
+          component: () =>
+            import("@/views/dashboard/component/FormVeeValidate"),
+        },
       ],
     },
   ],

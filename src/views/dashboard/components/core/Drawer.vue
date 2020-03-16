@@ -115,6 +115,11 @@ export default {
         icon: "mdi-bell",
         to: "/components/notifications",
       },
+      {
+        title: "VeeValidate",
+        icon: "mdi-information-outline",
+        to: "/components/vee-validate",
+      },
     ],
   }),
 
