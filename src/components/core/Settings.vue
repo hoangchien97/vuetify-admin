@@ -164,7 +164,7 @@ export default {
   mixins: [Proxyable],
 
   data: () => ({
-    color: "#E91E63",
+    color: "#4CAF50",
     colors: ["#9C27b0", "#00CAE3", "#4CAF50", "#ff9800", "#E91E63", "#FF5252"],
     image:
       "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg",

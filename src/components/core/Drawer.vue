@@ -32,49 +32,38 @@
       </v-list-item>
     </v-list>
 
-    <v-divider class="mb-2" />
+    <v-divider class="mb-5" />
 
     <v-list expand nav>
-      <!-- Style cascading bug  -->
-      <!-- https://github.com/vuetifyjs/vuetify/pull/8574 -->
-      <div />
+      <template v-for="(item, index) in items">
+        <v-list-item
+          :key="index"
+          :to="item.to"
+          active-class="primary white--text"
+        >
+          <v-list-item-icon>
+            <v-icon v-text="item.icon" />
+          </v-list-item-icon>
 
-      <template v-for="(item, i) in computedItems">
-        <base-item-group v-if="item.children" :key="`group-${i}`" :item="item">
-          <!--  -->
-        </base-item-group>
+          <v-list-item-content v-if="item.title || item.subtitle">
+            <v-list-item-title v-text="item.title" />
 
-        <base-item v-else :key="`item-${i}`" :item="item" />
+            <v-list-item-subtitle v-text="item.subtitle" />
+          </v-list-item-content>
+        </v-list-item>
       </template>
-
-      <!-- Style cascading bug  -->
-      <!-- https://github.com/vuetifyjs/vuetify/pull/8574 -->
-      <div />
     </v-list>
 
     <template v-slot:append>
-      <base-item
-        :item="{
-          title: $t('logout'),
-          icon: 'mdi-package-up',
-          to: '/logout',
-        }"
-      />
+      <v-list-item :active-class="barColor" @click="logout()">
+        <v-list-item-icon>
+          <v-icon v-text="'mdi-package-up'" />
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title v-text="'Logout'" />
+        </v-list-item-content>
+      </v-list-item>
     </template>
-    <!-- <v-list-tile
-      @click="onLogout"
-      active-class="primary"
-      class="v-list-item v-list__tile--buy"
-    >
-      <v-list-tile-action>
-        <v-icon>
-          mdi-backburger
-        </v-icon>
-      </v-list-tile-action>
-      <v-list-tile-title class="font-weight-light">
-        Logout
-      </v-list-tile-title>
-    </v-list-tile> -->
   </v-navigation-drawer>
 </template>
 
@@ -96,36 +85,36 @@ export default {
     items: [
       {
         icon: "mdi-view-dashboard",
-        title: "dashboard",
+        title: "Dashboard",
         to: "/",
       },
       {
         icon: "mdi-account",
-        title: "user",
+        title: "User",
         to: "/pages/user",
       },
       {
-        title: "rtables",
+        title: "Rtables",
         icon: "mdi-clipboard-outline",
         to: "/tables/regular-tables",
       },
       {
-        title: "typography",
+        title: "Typography",
         icon: "mdi-format-font",
         to: "/components/typography",
       },
       {
-        title: "icons",
+        title: "Icons",
         icon: "mdi-chart-bubble",
         to: "/components/icons",
       },
       {
-        title: "google",
+        title: "Google",
         icon: "mdi-map-marker",
         to: "/maps/google-maps",
       },
       {
-        title: "notifications",
+        title: "Notifications",
         icon: "mdi-bell",
         to: "/components/notifications",
       },
@@ -157,7 +146,6 @@ export default {
       }
     },
   },
-
   methods: {
     mapItem(item) {
       return {
@@ -165,6 +153,11 @@ export default {
         children: item.children ? item.children.map(this.mapItem) : undefined,
         title: this.$t(item.title),
       }
+    },
+    logout() {
+      // localStorage.removeItem("token")
+      // localStorage.removeItem("user")
+      this.$router.push("/login")
     },
   },
 }
