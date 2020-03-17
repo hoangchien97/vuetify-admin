@@ -25,17 +25,17 @@
                 </div>
                 <v-form>
                   <v-text-field
+                    v-model="formData.email"
                     outlined
                     label="Email"
                     name="username"
                     append-icon="mdi-account"
                     class="text-email"
-                    v-model="formData.email"
                     :rules="[rules.required, rules.email]"
                   ></v-text-field>
                   <v-text-field
-                    outlined
                     v-model="formData.password"
+                    outlined
                     label="Password"
                     name="password"
                     append-icon="mdi-lock"
@@ -47,20 +47,22 @@
                 </v-form>
                 <v-spacer></v-spacer>
                 <v-btn color="success" class="float-right" @click="login"
-                  >Login</v-btn
+                  >Sign in</v-btn
                 >
                 <div style="clear: both">
-                  <p class="display-2 pt-1 text-center">OR</p>
+                  <p class="display-2 pt-1 text-center">
+                    or sign in with social
+                  </p>
                 </div>
                 <div class="group pa-2">
-                  <v-btn class="ma-2" color="#F24444" dark large fab>
+                  <v-btn class="ma-2" color="#F24444" dark default fab>
                     <v-icon>mdi-google</v-icon>
                   </v-btn>
-                  <v-btn class="ma-2" color="#55acee" dark large fab>
+                  <v-btn class="ma-2" color="#55acee" dark default fab>
                     <v-icon>mdi-twitter</v-icon>
                   </v-btn>
 
-                  <v-btn class="ma-2" color="#3b5998" dark large fab>
+                  <v-btn class="ma-2" color="#3b5998" dark default fab>
                     <v-icon>mdi-facebook</v-icon>
                   </v-btn>
                 </div>
@@ -158,6 +160,20 @@ export default {
     display: flex;
     flex: 1;
     justify-content: center;
+  }
+  /* Change autocomplete styles in WebKit */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: none;
+    -webkit-text-fill-color: white;
+    transition: background-color 5000s ease-in-out 0s;
   }
 }
 </style>
