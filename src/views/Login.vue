@@ -27,17 +27,22 @@
                   <v-text-field
                     outlined
                     label="Email"
-                    name="email"
+                    name="username"
                     append-icon="mdi-account"
                     class="text-email"
+                    v-model="formData.email"
+                    :rules="[rules.required, rules.email]"
                   ></v-text-field>
                   <v-text-field
                     outlined
+                    v-model="formData.password"
                     label="Password"
                     name="password"
                     append-icon="mdi-lock"
                     class="text-green"
                     style="color: red"
+                    type="password"
+                    :rules="[rules.required, rules.min]"
                   ></v-text-field>
                 </v-form>
                 <v-spacer></v-spacer>
@@ -69,11 +74,37 @@
 </template>
 
 <script>
+import api from "@/services/api.service"
+
 export default {
   name: "Login",
+  data: function() {
+    return {
+      formData: {
+        email: "",
+        password: "",
+      },
+      rules: {
+        required: value => !!value || "Field is required.",
+        min: v => v.length >= 6 || "Min 6 characters",
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || "Invalid e-mail."
+        },
+      },
+    }
+  },
+
   methods: {
-    login() {
-      this.$router.push("/")
+    async login() {
+      try {
+        const res = await api.doLogin({ ...this.formData })
+        console.log(111, res)
+
+        this.$router.push("/")
+      } catch (error) {
+        console.log("error", error)
+      }
     },
   },
 }

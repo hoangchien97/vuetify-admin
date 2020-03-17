@@ -20,6 +20,9 @@ import "./plugins/chartist"
 import "./plugins/vee-validate"
 import vuetify from "./plugins/vuetify"
 import i18n from "./i18n"
+import ApiService from "./services/api.service"
+
+Vue.use(ApiService)
 
 Vue.config.productionTip = false
 
