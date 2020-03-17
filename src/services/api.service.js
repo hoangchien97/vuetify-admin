@@ -3,10 +3,9 @@ import axios from "axios"
 export default {
   install: function() {
     this.axios = axios.create({
-      // baseURL: `${process.env.VUE_APP_API_URL}`
-      //   ? `${process.env.VUE_APP_API_URL}`
-      //   : "http://localhost:3000/api/v1",
-      baseURL: `https://timesheet.savvycom.vn`,
+      baseURL: `${process.env.VUE_APP_API_URL}`
+        ? `${process.env.VUE_APP_API_URL}`
+        : "http://localhost:3000/api/v1",
       timeout: 1000,
     })
 
