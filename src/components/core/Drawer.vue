@@ -55,9 +55,9 @@
     <template v-slot:append>
       <base-item
         :item="{
-          title: $t('upgrade'),
+          title: $t('logout'),
           icon: 'mdi-package-up',
-          to: '/upgrade',
+          to: '/logout',
         }"
       />
     </template>

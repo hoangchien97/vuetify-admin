@@ -56,6 +56,7 @@ export default new Router({
           path: "upgrade",
           component: () => import("@/views/Upgrade"),
         },
+
         // VeeValidate
         {
           name: "Vee Validate",
@@ -63,6 +64,11 @@ export default new Router({
           component: () => import("@/views/FormVeeValidate"),
         },
       ],
+    },
+    {
+      name: "Login",
+      path: "login",
+      component: () => import("@/views/dashboard/Login"),
     },
   ],
 })
