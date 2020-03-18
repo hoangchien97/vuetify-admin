@@ -18,17 +18,25 @@ export default new Router({
           path: "",
           component: () => import("@/views/Dashboard"),
         },
-        // Pages
+        // Profile
         {
           name: "User Profile",
           path: "profile",
           component: () => import("@/views/users/UserProfile"),
         },
+        // Change Password
         {
           name: "Change Password",
           path: "change-password",
           component: () => import("@/views/users/ChangePassword"),
         },
+        // Daily Log Work
+        {
+          name: "Daily Log Work",
+          path: "daily-logwork",
+          component: () => import("@/views/DailyLogWork"),
+        },
+        // Noti
         {
           name: "Notifications",
           path: "components/notifications",

@@ -94,6 +94,11 @@ export default {
         to: "/profile",
       },
       {
+        icon: "mdi-timetable",
+        title: "Daily Log Work",
+        to: "/daily-logwork",
+      },
+      {
         title: "Rtables",
         icon: "mdi-clipboard-outline",
         to: "/tables/regular-tables",

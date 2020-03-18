@@ -13,8 +13,8 @@
               <v-row>
                 <v-col cols="12" md="6" offset-lg="3">
                   <v-text-field
-                    dense
                     v-model="email"
+                    dense
                     :rules="[rules.required, rules.email]"
                     label="Email Address"
                     class="purple-input"
@@ -23,30 +23,30 @@
                 </v-col>
                 <v-col cols="12" lg="6" offset-lg="3">
                   <v-text-field
+                    v-model="oldPsw"
                     dense
                     label="Enter your old password"
                     type="password"
-                    v-model="oldPsw"
                     class="purple-input"
                     prepend-icon="mdi-lock"
                   />
                 </v-col>
                 <v-col cols="12" lg="6" offset-lg="3">
                   <v-text-field
+                    v-model="newPsw"
                     dense
                     label="Enter your new password"
                     type="password"
-                    v-model="newPsw"
                     class="purple-input"
                     prepend-icon="mdi-lock-reset"
                   />
                 </v-col>
                 <v-col cols="12" lg="6" offset-lg="3">
                   <v-text-field
+                    v-model="confirmPsw"
                     dense
                     label="Confirm password"
                     type="password"
-                    v-model="confirmPsw"
                     class="purple-input"
                     prepend-icon="mdi-lock-reset"
                   />
