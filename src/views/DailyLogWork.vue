@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row justify="center">
       <v-col cols="12" lg="2">
         <!-- https://vuetifyjs.com/en/components/date-pickers/#month-pickers-in-dialog-and-menu -->
         <v-menu
@@ -64,6 +64,36 @@
           End Date: <strong>{{ endDate }}</strong>
         </p>
       </v-col>
+      <v-col cols="12" lg="2">
+        <!-- https://vuetifyjs.com/en/components/selects/ -->
+        <!-- // required -->
+        <v-select
+          outlined
+          v-model="selectProj"
+          :items="items"
+          item-text="name"
+          item-value="id"
+          label="Select Project Jira"
+          persistent-hint
+          return-object
+          single-line
+        ></v-select>
+      </v-col>
+      <v-col cols="12" lg="4">
+        <v-text-field
+          :label="$t('search')"
+          name="Search"
+          v-model="txtSearch"
+          hide-details
+        >
+          <template v-slot:append-outer>
+            <v-btn class="mt-n2" elevation="1" fab small @click="search()">
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </template>
+        </v-text-field>
+        <!-- <v-text-field @click:append-outer="sendMessage"> </v-text-field> -->
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -81,6 +111,13 @@ export default {
       endDateFormatted: "",
       menu1: false,
       menu2: false,
+      selectProj: { id: "1", name: "Superfanz" },
+      items: [
+        { id: "1", name: "Superfanz" },
+        { id: "2", name: "CY" },
+        { id: "3", name: "Wanna Train" },
+      ],
+      txtSearch: "",
     }
   },
 
@@ -88,10 +125,16 @@ export default {
     startDate(val) {
       this.menu1 = false
       this.startDateFormatted = this.formatDate(this.startDate)
+      this.search()
     },
     endDate(val) {
       this.menu2 = false
       this.endDateFormatted = this.formatDate(this.endDate)
+      this.search()
+    },
+    selectProj(val) {
+      console.log(val.id)
+      this.search()
     },
   },
 
@@ -115,6 +158,12 @@ export default {
     selectEndDate() {
       this.menu2 = false
       this.endDateFormatted = this.formatDate(this.endDate)
+    },
+    search() {
+      console.log("start date", this.startDate)
+      console.log("end date", this.endDate)
+      console.log("value selected", this.selectProj.id)
+      console.log("text search", this.txtSearch)
     },
   },
 }
