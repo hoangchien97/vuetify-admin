@@ -56,6 +56,7 @@
           </template>
           <v-date-picker
             v-model="endDate"
+            :min="startDate"
             no-title
             @input="selectEndDate()"
           ></v-date-picker>
@@ -68,8 +69,8 @@
         <!-- https://vuetifyjs.com/en/components/selects/ -->
         <!-- // required -->
         <v-select
-          outlined
           v-model="selectProj"
+          outlined
           :items="items"
           item-text="name"
           item-value="id"
@@ -81,10 +82,11 @@
       </v-col>
       <v-col cols="12" lg="4">
         <v-text-field
-          :label="$t('search')"
-          name="Search"
           v-model="txtSearch"
+          name="Search"
+          :label="$t('search')"
           hide-details
+          @input="search()"
         >
           <template v-slot:append-outer>
             <v-btn class="mt-n2" elevation="1" fab small @click="search()">
@@ -99,6 +101,7 @@
 </template>
 
 <script>
+import debounce from "lodash/debounce"
 export default {
   name: "DailyLogWork",
   data() {
@@ -159,12 +162,12 @@ export default {
       this.menu2 = false
       this.endDateFormatted = this.formatDate(this.endDate)
     },
-    search() {
+    search: debounce(function() {
       console.log("start date", this.startDate)
       console.log("end date", this.endDate)
       console.log("value selected", this.selectProj.id)
       console.log("text search", this.txtSearch)
-    },
+    }, 1000),
   },
 }
 </script>
