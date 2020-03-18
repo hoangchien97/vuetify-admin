@@ -21,8 +21,13 @@ export default new Router({
         // Pages
         {
           name: "User Profile",
-          path: "pages/user",
+          path: "profile",
           component: () => import("@/views/users/UserProfile"),
+        },
+        {
+          name: "Change Password",
+          path: "change-password",
+          component: () => import("@/views/users/ChangePassword"),
         },
         {
           name: "Notifications",

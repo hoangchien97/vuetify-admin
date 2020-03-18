@@ -21,7 +21,7 @@ const darkthemes = {
 
 const MY_ICONS = {
   setting: "mdi-settings",
-  account: "mdi-account",
+  account: "mdi-account-settings",
   accountSetting: "mdi-account-settings-variant",
 }
 

@@ -9,19 +9,17 @@
                 <div class="md-layout-item">
                   <h3 class="display-3">Welcome to Savvycom</h3>
                   <span class="subheading"
-                    >System to manage Check-in/Check-out, requests for
-                    vacations, job notes, announcements, reports, employees,
-                    projects of savvycom.</span
+                    >System Admin sync JIRA to Timesheet</span
                   >
-                  <v-divider class="my-3"></v-divider>
-                  <div class="title mb-3">Savvycom time tracker</div>
+                  <!-- <v-divider class="my-3"></v-divider> -->
+                  <!-- <div class="title mb-3">Savvycom time tracker</div> -->
                 </div>
               </v-col>
               <v-col cols="12" md="6" lg="4" class="form-login">
                 <div
                   class="display-2 font-weight-light mb-5 text-center text-uppercase"
                 >
-                  login here
+                  Sign in here
                 </div>
                 <v-form>
                   <v-text-field

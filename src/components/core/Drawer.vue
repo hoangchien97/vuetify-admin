@@ -90,8 +90,8 @@ export default {
       },
       {
         icon: "mdi-account",
-        title: "User",
-        to: "/pages/user",
+        title: "User Profile",
+        to: "/profile",
       },
       {
         title: "Rtables",

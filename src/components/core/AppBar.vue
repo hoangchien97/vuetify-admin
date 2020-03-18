@@ -63,10 +63,33 @@
         </div>
       </v-list>
     </v-menu>
-
-    <v-btn class="ml-2" min-width="0" text to="/pages/user">
-      <v-icon>mdi-account</v-icon>
-    </v-btn>
+    <v-menu
+      bottom
+      left
+      offset-y
+      origin="top right"
+      transition="scale-transition"
+    >
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn class="ml-2" min-width="0" text v-bind="attrs" v-on="on">
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
+      </template>
+      <v-list :tile="false" nav dense>
+        <app-bar-item
+          v-for="(item, i) in items"
+          :key="`item-${i}`"
+          @click="alert()"
+        >
+          <v-list-item dense :to="item.to">
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item>
+        </app-bar-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
@@ -125,6 +148,14 @@ export default {
       "Another Notification",
       "Another one",
     ],
+    items: [
+      { title: "User Profile", icon: "mdi-account-edit", to: "/profile" },
+      {
+        title: "Change Password",
+        icon: "mdi-lock-open",
+        to: "/change-password",
+      },
+    ],
   }),
 
   computed: {
@@ -143,5 +174,9 @@ export default {
 @import "@/assets/style/scss/index.scss";
 .title {
   color: $purple;
+}
+.list-item,
+.list-item:hover {
+  background-color: #4caf50;
 }
 </style>
