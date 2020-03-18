@@ -53,16 +53,6 @@
                 </v-col>
 
                 <v-col cols="12" lg="3" offset-lg="3" class="text-left">
-                  <!-- <v-btn dense color="red" class="mr-0 text-capitalize">
-                    <v-icon>mdi-cached</v-icon>
-                    Reset
-                  </v-btn>
-                </v-col>
-                <v-col cols="12" lg="3" class="text-right">
-                  <v-btn dense color="success" class="mr-0 text-capitalize">
-                    <v-icon>mdi-content-save</v-icon>
-                    Update
-                  </v-btn> -->
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn dense color="red" class="mr-0">
