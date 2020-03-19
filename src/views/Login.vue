@@ -21,7 +21,7 @@
                 >
                   Sign in here
                 </div>
-                <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+                <v-form ref="form">
                   <v-text-field
                     v-model="formData.email"
                     outlined
@@ -44,11 +44,7 @@
                   ></v-text-field>
                 </v-form>
                 <v-spacer></v-spacer>
-                <v-btn
-                  color="success"
-                  class="float-right"
-                  :disabled="!valid"
-                  @click="login"
+                <v-btn color="success" class="float-right" @click="login"
                   >Sign in</v-btn
                 >
                 <div style="clear: both">
@@ -93,8 +89,6 @@ export default {
   name: "Login",
   data: function() {
     return {
-      valid: true,
-      lazy: false,
       formData: {
         email: "",
         password: "",
@@ -200,9 +194,6 @@ export default {
     border: none;
     -webkit-text-fill-color: white;
     transition: background-color 5000s ease-in-out 0s;
-  }
-  button.v-btn[disabled] {
-    opacity: 0.6;
   }
 }
 </style>
