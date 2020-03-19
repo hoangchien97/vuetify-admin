@@ -21,7 +21,7 @@
                 >
                   Sign in here
                 </div>
-                <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+                <v-form ref="form">
                   <v-text-field
                     v-model="formData.email"
                     outlined
@@ -44,11 +44,7 @@
                   ></v-text-field>
                 </v-form>
                 <v-spacer></v-spacer>
-                <v-btn
-                  color="success"
-                  class="float-right"
-                  :disabled="!valid"
-                  @click="login"
+                <v-btn color="success" class="float-right" @click="login"
                   >Sign in</v-btn
                 >
                 <div style="clear: both">
@@ -72,20 +68,27 @@
             </v-row>
           </v-container>
         </div>
+        <v-snackbar v-model="msg.show" :color="msg.color" top right dark>
+          <v-icon color="white" class="mr-3">
+            mdi-bell-plus
+          </v-icon>
+          <div>{{ msg.message }}</div>
+          <v-icon size="16" @click="msg.show = false">
+            mdi-close-circle
+          </v-icon>
+        </v-snackbar>
       </v-content>
     </v-app>
   </div>
 </template>
 
 <script>
-import api from "@/services/api.service"
+// import api from "@/services/api.service"
 
 export default {
   name: "Login",
   data: function() {
     return {
-      valid: true,
-      lazy: false,
       formData: {
         email: "",
         password: "",
@@ -98,21 +101,29 @@ export default {
           return pattern.test(value) || "Invalid e-mail."
         },
       },
+      msg: {
+        color: "success",
+        show: false,
+        message: "",
+      },
     }
   },
 
   methods: {
-    validate() {
-      this.$refs.form.validate()
-      console.log(111, this.$refs.form.validate())
-    },
-    async login() {
-      this.validate()
+    login() {
       try {
-        const res = await api.doLogin({ ...this.formData })
-        console.log(111, res)
-
-        this.$router.push("/")
+        // const res = await api.doLogin({ ...this.formData })
+        if (
+          this.formData.email === "admin@savvycomsoftware.com" &&
+          this.formData.password === "123456"
+        ) {
+          this.$router.push("/")
+        } else {
+          this.msg.message = "Invalid email or password"
+          this.msg.color = "red"
+          this.msg.show = true
+          this.btnLoadding = false
+        }
       } catch (error) {
         console.log("error", error)
       }
@@ -183,9 +194,6 @@ export default {
     border: none;
     -webkit-text-fill-color: white;
     transition: background-color 5000s ease-in-out 0s;
-  }
-  button.v-btn[disabled] {
-    opacity: 0.6;
   }
 }
 </style>
