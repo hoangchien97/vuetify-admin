@@ -5,4 +5,5 @@ export default {
   barImage:
     "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg",
   drawer: null,
+  listLogSyncJira: null,
 }

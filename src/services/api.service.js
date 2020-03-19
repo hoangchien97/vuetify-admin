@@ -1,21 +1,23 @@
 import axios from "axios"
 
 export default {
-  install: function() {
+  // eslint-disable-next-line prettier/prettier
+  install: function () {
     this.axios = axios.create({
       baseURL: `${process.env.VUE_APP_API_URL}`
         ? `${process.env.VUE_APP_API_URL}`
         : "http://localhost:3000/api/v1",
-      timeout: 1000,
     })
 
     // Add a request interceptor
     axios.interceptors.request.use(
-      function(config) {
+      // eslint-disable-next-line prettier/prettier
+      function (config) {
         // Do something before request is sent
         return config
       },
-      function(error) {
+      // eslint-disable-next-line prettier/prettier
+      function (error) {
         // Do something with request error
         return Promise.reject(error)
       }
@@ -23,11 +25,13 @@ export default {
 
     // Add a response interceptor
     axios.interceptors.response.use(
-      function(response) {
+      // eslint-disable-next-line prettier/prettier
+      function (response) {
         // Do something with response data
         return response
       },
-      function(error) {
+      // eslint-disable-next-line prettier/prettier
+      function (error) {
         // Do something with response error
         return Promise.reject(error)
       }
@@ -51,5 +55,9 @@ export default {
 
   doLogin(data) {
     return this.doPost("/users/loginByApi", data)
+  },
+
+  getLogSyncJira(data) {
+    return this.doPost("/jira/list", data)
   },
 }
