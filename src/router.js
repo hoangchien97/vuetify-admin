@@ -36,6 +36,12 @@ export default new Router({
           path: "daily-logwork",
           component: () => import("@/views/DailyLogWork"),
         },
+        // Log Sync
+        {
+          name: "Log Sync",
+          path: "log-sync",
+          component: () => import("@/views/LogSync"),
+        },
         // Noti
         {
           name: "Notifications",
