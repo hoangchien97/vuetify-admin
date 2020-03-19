@@ -72,22 +72,13 @@
             </v-row>
           </v-container>
         </div>
-        <v-snackbar v-model="msg.show" :color="msg.color" top right dark>
-          <v-icon color="white" class="mr-3">
-            mdi-bell-plus
-          </v-icon>
-          <div>{{ msg.message }}</div>
-          <v-icon size="16" @click="msg.show = false">
-            mdi-close-circle
-          </v-icon>
-        </v-snackbar>
       </v-content>
     </v-app>
   </div>
 </template>
 
 <script>
-// import api from "@/services/api.service"
+import api from "@/services/api.service"
 
 export default {
   name: "Login",
@@ -107,29 +98,21 @@ export default {
           return pattern.test(value) || "Invalid e-mail."
         },
       },
-      msg: {
-        color: "success",
-        show: false,
-        message: "",
-      },
     }
   },
 
   methods: {
-    login() {
+    validate() {
+      this.$refs.form.validate()
+      console.log(111, this.$refs.form.validate())
+    },
+    async login() {
+      this.validate()
       try {
-        // const res = await api.doLogin({ ...this.formData })
-        if (
-          this.formData.email === "admin@savvycomsoftware.com" &&
-          this.formData.password === "123456"
-        ) {
-          this.$router.push("/")
-        } else {
-          this.msg.message = "Invalid email or password"
-          this.msg.color = "red"
-          this.msg.show = true
-          this.btnLoadding = false
-        }
+        const res = await api.doLogin({ ...this.formData })
+        console.log(111, res)
+
+        this.$router.push("/")
       } catch (error) {
         console.log("error", error)
       }
