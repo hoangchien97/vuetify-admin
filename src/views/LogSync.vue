@@ -1,3 +1,4 @@
+/* eslint-disable vue/no-unused-vars */
 <template>
   <v-container>
     <base-v-component heading="Log Sync" link="components/simple-tables" />
@@ -93,17 +94,31 @@
             </v-card>
             <v-data-table
               :headers="headers"
-              :items="listLogSyncJira.invalid"
+              :items="invalid"
               :length="pages"
               :search="search"
+              sort-by="username"
               :pagination.sync="pagination"
               :total-items="totalItemCount"
               class="elevation-1"
             >
-              <template v-slot:item="{ item }">
-                <td>{{ item.error.username }}</td>
+              <!-- <template v-slot:item="{ item }"> -->
+              <!-- <td>{{ item.error.username }}</td>
                 <td>{{ item.error.project_id }}</td>
                 <td>{{ item.error.timeSpent }}</td>
+                <td>{{ item.reason }}</td>
+                <td>{{ item.error.description }}</td>
+                <td>{{ item.error.dateCreated }}</td> -->
+              <!-- {{ item }} -->
+              <!-- </template> -->
+              <template v-slot:item="{ item }">
+                <tr v-for="(i, i_index) in item" :key="i_index">
+                  <template v-if="i_index === `error`">
+                    <td v-for="(header, h_index) in headers" :key="h_index">
+                      {{ item[i_index][header.value] || item[header.value] }}
+                    </td>
+                  </template>
+                </tr>
               </template>
             </v-data-table>
           </v-card>
@@ -139,6 +154,7 @@ export default {
         { text: "Project Name", value: "project_id" },
         { text: "Time Spent", value: "timeSpent" },
         { text: "Reason", value: "reason" },
+        { text: "Description", value: "description" },
         { text: "Date", value: "dateCreated" },
       ],
       search: "",
@@ -147,6 +163,41 @@ export default {
       pagination: {
         sortBy: "Date",
       },
+      invalid: [
+        {
+          error: {
+            username: "nhung.vu",
+            project_id: "WannaTrain",
+            started: "2020-02-20",
+            timeSpent: 8,
+            description: "WT2-76: Teambase - Test sprint 1",
+            dateCreated: "2020-02-20 11:35:30.000",
+          },
+          reason: "USER NOT FOUND",
+        },
+        {
+          error: {
+            username: "hoang.chien",
+            project_id: "SuperFanz",
+            started: "2020-02-20",
+            timeSpent: 8,
+            description: "SPZ-14: UI - Login",
+            dateCreated: "2020-02-20 11:35:30.000",
+          },
+          reason: "USER NOT LOGWORK",
+        },
+        {
+          error: {
+            username: "hoang.chien",
+            project_id: "SuperFanz",
+            started: "2022-02-20",
+            timeSpent: 8,
+            description: "SPZ-14: UI - Following/Follower",
+            dateCreated: "2020-02-20 11:35:30.000",
+          },
+          reason: "USER NOT EXIST",
+        },
+      ],
     }
   },
   computed: {
