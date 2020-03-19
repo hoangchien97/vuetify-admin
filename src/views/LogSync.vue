@@ -73,45 +73,43 @@
           </p> -->
         </v-col>
       </v-row>
+      <!-- <template v-if="listLogSyncJira"> -->
       <v-row>
         <v-col cols="12">
           <!-- https://vuetifyjs.com/vi-VN/components/data-tables/ -->
-          <v-simple-table>
-            <thead>
-              <tr>
-                <th class="primary--text">STT</th>
-                <th class="primary--text">
-                  Username
-                </th>
-                <th class="primary--text">
-                  Project Name
-                </th>
-                <th class="primary--text">
-                  Time Spent
-                </th>
-                <th class="primary--text">
-                  Reason
-                </th>
-                <th class="primary--text">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="(item, index) in listLogSyncJira.invalid">
-                <tr :key="index">
-                  <td>{{ index }}</td>
-                  <td>{{ item.error.username }}</td>
-                  <td>{{ item.error.project_id }}</td>
-                  <td>{{ item.error.timeSpent }}</td>
-                  <td>{{ item.reason }}</td>
-                  <td>{{ item.error.dateCreated }}</td>
-                </tr>
+          <v-card>
+            <v-card flat color="success" dark>
+              <v-card-title>
+                <span>Reports</span>
+                <v-spacer></v-spacer>
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-search"
+                  label="Search"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-card-title>
+            </v-card>
+            <v-data-table
+              :headers="headers"
+              :items="listLogSyncJira.invalid"
+              :length="pages"
+              :search="search"
+              :pagination.sync="pagination"
+              :total-items="totalItemCount"
+              class="elevation-1"
+            >
+              <template v-slot:item="{ item }">
+                <td>{{ item.error.username }}</td>
+                <td>{{ item.error.project_id }}</td>
+                <td>{{ item.error.timeSpent }}</td>
               </template>
-            </tbody></v-simple-table
-          >
+            </v-data-table>
+          </v-card>
         </v-col>
       </v-row>
+      <!-- </template> -->
     </base-material-card>
   </v-container>
 </template>
@@ -143,15 +141,12 @@ export default {
         { text: "Reason", value: "reason" },
         { text: "Date", value: "dateCreated" },
       ],
-      desserts: [
-        {
-          username: "Frozen Yogurt",
-          project_id: 159,
-          timeSpent: 6.0,
-          reason: 24,
-          dateCreated: 4.0,
-        },
-      ],
+      search: "",
+      // totalItems: 0,
+      items: [],
+      pagination: {
+        sortBy: "Date",
+      },
     }
   },
   computed: {
