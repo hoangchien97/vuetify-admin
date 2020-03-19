@@ -342,7 +342,6 @@ export default {
     endDate(val) {
       this.menu2 = false
       this.endDateFormatted = this.formatDate(this.endDate)
-      this.search()
     },
     selectProj(val) {
       console.log(val.id)

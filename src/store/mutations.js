@@ -7,4 +7,7 @@ export default {
   SET_DRAWER(state, payload) {
     state.drawer = payload
   },
+  GET_LOG_SYNC_JIRA(state, payload) {
+    state.listLogSyncJira = payload.data
+  },
 }

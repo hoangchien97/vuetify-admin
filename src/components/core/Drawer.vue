@@ -99,6 +99,11 @@ export default {
         to: "/daily-logwork",
       },
       {
+        icon: "mdi-sync",
+        title: "Log Sync",
+        to: "/log-sync",
+      },
+      {
         title: "Rtables",
         icon: "mdi-clipboard-outline",
         to: "/tables/regular-tables",
