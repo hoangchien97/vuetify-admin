@@ -108,31 +108,31 @@ export default {
         title: "Setting Cron Job",
         to: "/setting-cron-job",
       },
-      {
-        title: "Rtables",
-        icon: "mdi-clipboard-outline",
-        to: "/tables/regular-tables",
-      },
-      {
-        title: "Typography",
-        icon: "mdi-format-font",
-        to: "/components/typography",
-      },
-      {
-        title: "Icons",
-        icon: "mdi-chart-bubble",
-        to: "/components/icons",
-      },
-      {
-        title: "Google",
-        icon: "mdi-map-marker",
-        to: "/maps/google-maps",
-      },
-      {
-        title: "Notifications",
-        icon: "mdi-bell",
-        to: "/components/notifications",
-      },
+      // {
+      //   title: "Rtables",
+      //   icon: "mdi-clipboard-outline",
+      //   to: "/tables/regular-tables",
+      // },
+      // {
+      //   title: "Typography",
+      //   icon: "mdi-format-font",
+      //   to: "/components/typography",
+      // },
+      // {
+      //   title: "Icons",
+      //   icon: "mdi-chart-bubble",
+      //   to: "/components/icons",
+      // },
+      // {
+      //   title: "Google",
+      //   icon: "mdi-map-marker",
+      //   to: "/maps/google-maps",
+      // },
+      // {
+      //   title: "Notifications",
+      //   icon: "mdi-bell",
+      //   to: "/components/notifications",
+      // },
       {
         title: "VeeValidate",
         icon: "mdi-information-outline",

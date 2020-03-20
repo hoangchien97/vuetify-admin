@@ -33,6 +33,7 @@
             </template>
             <v-date-picker
               v-model="formData.startDate"
+              :max="formData.endDate"
               no-title
               @input="selectStartDate()"
             ></v-date-picker>
@@ -100,7 +101,14 @@
                 class="elevation-1"
               >
                 <template v-slot:item.dateCreated="{ item }">
-                  <p>{{ item.dateCreated }}</p>
+                  {{ convertDate(item.dateCreated) }}
+                </template>
+                <template v-slot:item.started="{ item }">
+                  {{ convertDate(item.started) }}
+                </template>
+                <!-- eslint-disable -->
+                <template v-slot:item.description="{ item }">
+                  <div v-html="replaceTicket(item.description)"></div>
                 </template>
               </v-data-table>
             </v-card>
@@ -122,7 +130,6 @@ export default {
   name: "LogSync",
   data() {
     return {
-      no: 1,
       startDateFormatted: "",
       endDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       formData: {
@@ -134,7 +141,9 @@ export default {
       menu2: false,
 
       headers: [
-        { text: "Date", value: "dateCreated" },
+        // { text: "STT", value: "stt" },
+        { text: "Running Date", value: "started" },
+        { text: "Logwork Date", value: "dateCreated" },
         {
           text: "Username",
           align: "start",
@@ -165,6 +174,13 @@ export default {
     },
   },
   methods: {
+    replaceTicket(item) {
+      const result = item.replace(/\\n/g, "<br />")
+      return result
+    },
+    convertDate(date) {
+      return moment(date).format("DD/MM/YYYY")
+    },
     formatDate(date) {
       if (!date) return null
 
@@ -190,10 +206,6 @@ export default {
 
     async getLogSyncJira() {
       await this.$store.dispatch("getLogSyncJira", { ...this.formData })
-    },
-
-    convertDate(date) {
-      return moment(date).format("DD/MM/YYYY")
     },
   },
 }
