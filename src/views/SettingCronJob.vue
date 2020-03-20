@@ -13,130 +13,108 @@
               <v-col class="pb-0" cols="12" offset-md="2">
                 <div><strong>Second:</strong></div>
               </v-col>
-              <v-col class="py-0" cols="12" md="2" offset-md="2">
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
                   v-model="second"
                   label="0-59"
+                  placeholder="*"
                   dense
                   outlined
                   solo
-                  @change="inforTime('second')"
+                  @change="inforTime('second', second, 'Minute')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtInforTime" readonly>
-                  {{ txtInforTime }}
+                <v-text-field v-model="txtSecond" outlined dense readonly>
                 </v-text-field>
               </v-col>
               <v-col class="pb-0" cols="12" offset-md="2">
                 <div><strong>Minute:</strong></div>
               </v-col>
-              <v-col class="py-0" cols="12" md="2" offset-md="2">
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
                   v-model="minute"
                   label="0-59"
                   dense
                   outlined
                   solo
-                  @change="inforTime('minute')"
+                  @change="inforTime('minute', minute, 'Hour')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field readonly>
-                  {{ txtInforTime }}
+                <v-text-field v-model="txtMinute" outlined dense readonly>
                 </v-text-field>
               </v-col>
               <v-col class="pb-0" cols="12" offset-md="2">
                 <div><strong>Hour:</strong></div>
               </v-col>
-              <v-col class="py-0" cols="12" md="2" offset-md="2">
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
                   v-model="hour"
                   label="0-23"
                   dense
                   outlined
                   solo
+                  @change="inforTime('hour', hour, 'Day')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-select
-                  v-model="hour"
-                  item-text="name"
-                  item-value="id"
-                  label="Select Hour"
-                  persistent-hint
-                  dense
-                  outlined
-                ></v-select>
+                <v-text-field v-model="txtHour" outlined dense readonly>
+                </v-text-field>
               </v-col>
+
               <v-col class="pb-0" cols="12" offset-md="2">
                 <div><strong>Day:</strong></div>
               </v-col>
-              <v-col class="py-0" cols="12" md="2" offset-md="2">
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
                   v-model="day"
                   label="1-31"
                   dense
                   outlined
                   solo
+                  @change="inforTime('day', day, 'Month')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-select
-                  v-model="day"
-                  item-text="name"
-                  item-value="id"
-                  label="Select Day"
-                  persistent-hint
-                  dense
-                  outlined
-                ></v-select>
+                <v-text-field v-model="txtDay" outlined dense readonly>
+                </v-text-field>
               </v-col>
+
               <v-col class="pb-0" cols="12" offset-md="2">
                 <div><strong>Month:</strong></div>
               </v-col>
-              <v-col class="py-0" cols="12" md="2" offset-md="2">
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
                   v-model="month"
-                  label="1-12"
+                  label="0-12 (or names, see below)"
                   dense
                   outlined
                   solo
+                  @change="inforTime('month', month, 'Month')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-select
-                  v-model="month"
-                  item-text="name"
-                  item-value="id"
-                  label="Select Month"
-                  persistent-hint
-                  dense
-                  outlined
-                ></v-select>
+                <v-text-field v-model="txtMonth" outlined dense readonly>
+                </v-text-field>
               </v-col>
+
               <v-col class="pb-0" cols="12" offset-md="2">
-                <div><strong>Weekday:</strong></div>
+                <div><strong>Day Of Week:</strong></div>
               </v-col>
-              <v-col class="py-0" cols="12" md="2" offset-md="2">
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="weekday"
-                  label="0-7"
+                  v-model="dayOfWeek"
+                  label="0-7 (0 or 7 is Sun, or use names)"
                   dense
                   outlined
                   solo
+                  @change="inforTime('dayOfWeek', dayOfWeek, 'Month')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-select
-                  v-model="weekday"
-                  item-text="name"
-                  item-value="id"
-                  label="Select Weekday"
-                  persistent-hint
-                  dense
-                  outlined
-                ></v-select>
+                <v-text-field v-model="txtDayOfWeek" outlined dense readonly>
+                </v-text-field>
               </v-col>
             </v-row>
           </form>
@@ -156,37 +134,64 @@ export default {
       hour: "",
       day: "",
       month: "",
-      weekday: "",
-      txtInforTime: "",
+      dayOfWeek: "",
+      txtSecond: "",
+      txtMinute: "",
+      txtHour: "",
+      txtDay: "",
+      txtMonth: "",
+      txtDayOfWeek: "",
     }
   },
   computed: {},
   methods: {
-    inforTime(time) {
-      switch (time) {
+    inforTime(type, timeCurrent, nextTime) {
+      switch (type) {
         case "second":
-          if (this.second === "*") {
-            this.txtInforTime = "Once Per Minute"
-          } else if (this.second.includes("*/")) {
-            const toTime = this.second.substring(this.second.length - 1)
-            this.txtInforTime = "Once every " + toTime + " minutes"
-          } else if (this.second.includes("-")) {
-            const fromTime = this.second.substring(0, 1)
-            const toTime = this.second.substring(this.second.length - 1)
-            this.txtInforTime =
-              "Every 1 minute in the range time of " +
-              fromTime +
-              " to " +
-              toTime
-          } else if (this.second.includes(",")) {
-            const toTime = this.second.split(",").toString()
-            this.txtInforTime = "At" + toTime + "minutes"
-          }
+          this.txtSecond = this.convertInforText(type, timeCurrent, nextTime)
           break
-
+        case "minute":
+          this.txtMinute = this.convertInforText(type, timeCurrent, nextTime)
+          break
+        case "hour":
+          this.txtHour = this.convertInforText(type, timeCurrent, nextTime)
+          break
+        case "day":
+          this.txtDay = this.convertInforText(type, timeCurrent, nextTime)
+          break
+        case "month":
+          this.txtMonth = this.convertInforText(type, timeCurrent, nextTime)
+          break
+        case "dayOfWeek":
+          this.txtDayOfWeek = this.convertInforText(type, timeCurrent, nextTime)
+          break
         default:
           break
       }
+    },
+    convertInforText(type, timeCurrent, nextTime) {
+      let txt = ""
+      if (timeCurrent === "*") {
+        txt = "Once Per " + nextTime
+      } else if (timeCurrent.includes("*/")) {
+        const toTime = timeCurrent.substring(timeCurrent.length - 1)
+        txt = "Once Every " + toTime + " " + nextTime
+      } else if (timeCurrent.includes("-")) {
+        const fromTime = timeCurrent.substring(0, 1)
+        const toTime = timeCurrent.substring(timeCurrent.length - 1)
+        txt =
+          "Every 1 " +
+          nextTime +
+          " in the range time of " +
+          fromTime +
+          " to " +
+          toTime
+      } else if (timeCurrent.includes(",")) {
+        const toTime = timeCurrent.split(",") // [1, 5 ,3 , 7]
+        txt = "Every At " + toTime + " " + nextTime
+      } else {
+      }
+      return txt
     },
   },
 }
