@@ -74,57 +74,48 @@
           </p> -->
         </v-col>
       </v-row>
-      <!-- <template v-if="listLogSyncJira"> -->
-      <v-row>
-        <v-col cols="12">
-          <!-- https://vuetifyjs.com/vi-VN/components/data-tables/ -->
-          <v-card>
-            <v-card flat color="success" dark>
-              <v-card-title>
-                <span>Reports</span>
-                <v-spacer></v-spacer>
-                <v-text-field
-                  v-model="search"
-                  append-icon="mdi-search"
-                  label="Search"
-                  single-line
-                  hide-details
-                ></v-text-field>
-              </v-card-title>
+      <template v-if="listLogSyncJira">
+        <v-row>
+          <v-col cols="12">
+            <!-- https://vuetifyjs.com/vi-VN/components/data-tables/ -->
+            <v-card>
+              <v-card flat color="success" dark>
+                <v-card-title>
+                  <span>Reports</span>
+                  <v-spacer></v-spacer>
+                  <v-text-field
+                    v-model="search"
+                    append-icon="mdi-search"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-card-title>
+              </v-card>
+              <v-data-table
+                :headers="headers"
+                :items="listLogSyncJira.invalid"
+                :length="pages"
+                :search="search"
+                sort-by="username"
+                :pagination.sync="pagination"
+                :total-items="totalItemCount"
+                class="elevation-1"
+              >
+                <template v-slot:item="{ item }">
+                  <tr v-for="(i, i_index) in item" :key="i_index">
+                    <template v-if="i_index === `error`">
+                      <td v-for="(header, h_index) in headers" :key="h_index">
+                        {{ item[i_index][header.value] || item[header.value] }}
+                      </td>
+                    </template>
+                  </tr>
+                </template>
+              </v-data-table>
             </v-card>
-            <v-data-table
-              :headers="headers"
-              :items="invalid"
-              :length="pages"
-              :search="search"
-              sort-by="username"
-              :pagination.sync="pagination"
-              :total-items="totalItemCount"
-              class="elevation-1"
-            >
-              <!-- <template v-slot:item="{ item }"> -->
-              <!-- <td>{{ item.error.username }}</td>
-                <td>{{ item.error.project_id }}</td>
-                <td>{{ item.error.timeSpent }}</td>
-                <td>{{ item.reason }}</td>
-                <td>{{ item.error.description }}</td>
-                <td>{{ item.error.dateCreated }}</td> -->
-              <!-- {{ item }} -->
-              <!-- </template> -->
-              <template v-slot:item="{ item }">
-                <tr v-for="(i, i_index) in item" :key="i_index">
-                  <template v-if="i_index === `error`">
-                    <td v-for="(header, h_index) in headers" :key="h_index">
-                      {{ item[i_index][header.value] || item[header.value] }}
-                    </td>
-                  </template>
-                </tr>
-              </template>
-            </v-data-table>
-          </v-card>
-        </v-col>
-      </v-row>
-      <!-- </template> -->
+          </v-col>
+        </v-row>
+      </template>
     </base-material-card>
   </v-container>
 </template>
@@ -154,7 +145,7 @@ export default {
         { text: "Project Name", value: "project_id" },
         { text: "Time Spent", value: "timeSpent" },
         { text: "Reason", value: "reason" },
-        { text: "Description", value: "description" },
+        { text: "Ticket", value: "description" },
         { text: "Date", value: "dateCreated" },
       ],
       search: "",
