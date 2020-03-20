@@ -21,7 +21,9 @@
                   dense
                   outlined
                   solo
-                  @change="inforTime('second', second, 'Minute')"
+                  @change="
+                    inforTime($constants.TIME_TYPE.SECOND, second, 'Minute')
+                  "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
@@ -38,7 +40,9 @@
                   dense
                   outlined
                   solo
-                  @change="inforTime('minute', minute, 'Hour')"
+                  @change="
+                    inforTime($constants.TIME_TYPE.MINUTE, minute, 'Hour')
+                  "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
@@ -55,7 +59,7 @@
                   dense
                   outlined
                   solo
-                  @change="inforTime('hour', hour, 'Day')"
+                  @change="inforTime($constants.TIME_TYPE.HOUR, hour, 'Day')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
@@ -73,7 +77,7 @@
                   dense
                   outlined
                   solo
-                  @change="inforTime('day', day, 'Month')"
+                  @change="inforTime($constants.TIME_TYPE.DAY, day, 'Month')"
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
@@ -91,7 +95,9 @@
                   dense
                   outlined
                   solo
-                  @change="inforTime('month', month, 'Month')"
+                  @change="
+                    inforTime($constants.TIME_TYPE.MONTH, month, 'Month')
+                  "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
@@ -109,12 +115,23 @@
                   dense
                   outlined
                   solo
-                  @change="inforTime('dayOfWeek', dayOfWeek, 'Month')"
+                  @change="
+                    inforTime(
+                      $constants.TIME_TYPE.DAYOFWEEK,
+                      dayOfWeek,
+                      'Month'
+                    )
+                  "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
                 <v-text-field v-model="txtDayOfWeek" outlined dense readonly>
                 </v-text-field>
+              </v-col>
+              <v-col class="py-0 ">
+                <v-btn class="float-right" color="success"
+                  >Add New Cron Job</v-btn
+                >
               </v-col>
             </v-row>
           </form>
@@ -125,6 +142,7 @@
 </template>
 
 <script>
+import { TIME_TYPE } from "@/plugins/constants"
 export default {
   name: "SettingCronJob",
   data() {
@@ -147,22 +165,22 @@ export default {
   methods: {
     inforTime(type, timeCurrent, nextTime) {
       switch (type) {
-        case "second":
+        case TIME_TYPE.SECOND:
           this.txtSecond = this.convertInforText(type, timeCurrent, nextTime)
           break
-        case "minute":
+        case TIME_TYPE.MINUTE:
           this.txtMinute = this.convertInforText(type, timeCurrent, nextTime)
           break
-        case "hour":
+        case TIME_TYPE.HOUR:
           this.txtHour = this.convertInforText(type, timeCurrent, nextTime)
           break
-        case "day":
+        case TIME_TYPE.DAY:
           this.txtDay = this.convertInforText(type, timeCurrent, nextTime)
           break
-        case "month":
+        case TIME_TYPE.MONTH:
           this.txtMonth = this.convertInforText(type, timeCurrent, nextTime)
           break
-        case "dayOfWeek":
+        case TIME_TYPE.DAYOFWEEK:
           this.txtDayOfWeek = this.convertInforText(type, timeCurrent, nextTime)
           break
         default:

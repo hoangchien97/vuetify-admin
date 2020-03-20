@@ -13,7 +13,17 @@ export const VALID_LENGTH = {
   NAME: 100,
 }
 
+export const TIME_TYPE = {
+  SECOND: "SECOND",
+  MINUTE: "MINUTE",
+  HOUR: "HOUR",
+  DAY: "DAY",
+  MONTH: "MONTH",
+  DAYOFWEEK: "DAYOFWEEK",
+}
+
 Vue.prototype.$constants = {
   VALID_LENGTH,
   RESPONSE_API,
+  TIME_TYPE,
 }
