@@ -104,6 +104,11 @@ export default {
         to: "/log-sync",
       },
       {
+        icon: "mdi-emby",
+        title: "Setting Cron Job",
+        to: "/setting-cron-job",
+      },
+      {
         title: "Rtables",
         icon: "mdi-clipboard-outline",
         to: "/tables/regular-tables",

@@ -42,6 +42,12 @@ export default new Router({
           path: "log-sync",
           component: () => import("@/views/LogSync"),
         },
+        // Setting-Cron-Job
+        {
+          name: "Setting Cron Job",
+          path: "setting-cron-job",
+          component: () => import("@/views/SettingCronJob"),
+        },
         // Noti
         {
           name: "Notifications",

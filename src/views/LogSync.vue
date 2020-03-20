@@ -95,36 +95,34 @@
               <v-data-table
                 :headers="headers"
                 :items="listLogSyncJira.invalid"
-                :length="pages"
                 :search="search"
                 sort-by="username"
-                :pagination.sync="pagination"
-                :total-items="totalItemCount"
                 class="elevation-1"
               >
-                <template v-slot:item="{ item }">
-                  <tr v-for="(i, i_index) in item" :key="i_index">
-                    <template v-if="i_index === `error`">
-                      <td v-for="(header, h_index) in headers" :key="h_index">
-                        {{ item[i_index][header.value] || item[header.value] }}
-                      </td>
-                    </template>
-                  </tr>
+                <template v-slot:item.dateCreated="{ item }">
+                  <p>{{ item.dateCreated }}</p>
                 </template>
               </v-data-table>
             </v-card>
           </v-col>
         </v-row>
       </template>
+      <template v-else>
+        <div>
+          No data to show
+        </div>
+      </template>
     </base-material-card>
   </v-container>
 </template>
 
 <script>
+import moment from "moment"
 export default {
   name: "LogSync",
   data() {
     return {
+      no: 1,
       startDateFormatted: "",
       endDateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       formData: {
@@ -136,6 +134,7 @@ export default {
       menu2: false,
 
       headers: [
+        { text: "Date", value: "dateCreated" },
         {
           text: "Username",
           align: "start",
@@ -144,51 +143,10 @@ export default {
         },
         { text: "Project Name", value: "project_id" },
         { text: "Time Spent", value: "timeSpent" },
-        { text: "Reason", value: "reason" },
         { text: "Ticket", value: "description" },
-        { text: "Date", value: "dateCreated" },
+        { text: "Reason", value: "reason" },
       ],
       search: "",
-      // totalItems: 0,
-      items: [],
-      pagination: {
-        sortBy: "Date",
-      },
-      invalid: [
-        {
-          error: {
-            username: "nhung.vu",
-            project_id: "WannaTrain",
-            started: "2020-02-20",
-            timeSpent: 8,
-            description: "WT2-76: Teambase - Test sprint 1",
-            dateCreated: "2020-02-20 11:35:30.000",
-          },
-          reason: "USER NOT FOUND",
-        },
-        {
-          error: {
-            username: "hoang.chien",
-            project_id: "SuperFanz",
-            started: "2020-02-20",
-            timeSpent: 8,
-            description: "SPZ-14: UI - Login",
-            dateCreated: "2020-02-20 11:35:30.000",
-          },
-          reason: "USER NOT LOGWORK",
-        },
-        {
-          error: {
-            username: "hoang.chien",
-            project_id: "SuperFanz",
-            started: "2022-02-20",
-            timeSpent: 8,
-            description: "SPZ-14: UI - Following/Follower",
-            dateCreated: "2020-02-20 11:35:30.000",
-          },
-          reason: "USER NOT EXIST",
-        },
-      ],
     }
   },
   computed: {
@@ -211,7 +169,7 @@ export default {
       if (!date) return null
 
       const [year, month, day] = date.split("-")
-      return `${month}/${day}/${year}`
+      return `${day}/${month}/${year}`
     },
     parseDate(date) {
       if (!date) return null
@@ -232,6 +190,10 @@ export default {
 
     async getLogSyncJira() {
       await this.$store.dispatch("getLogSyncJira", { ...this.formData })
+    },
+
+    convertDate(date) {
+      return moment(date).format("DD/MM/YYYY")
     },
   },
 }
