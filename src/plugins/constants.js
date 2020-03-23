@@ -19,7 +19,7 @@ export const TIME_TYPE = {
   HOUR: "HOUR",
   DAY: "DAY",
   MONTH: "MONTH",
-  DAYOFWEEK: "DAYOFWEEK",
+  WEEKDAY: "WEEKDAY",
 }
 
 Vue.prototype.$constants = {

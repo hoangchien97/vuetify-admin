@@ -106,30 +106,26 @@
               </v-col>
 
               <v-col class="pb-0" cols="12" offset-md="2">
-                <div><strong>Day Of Week:</strong></div>
+                <div><strong>Weekday:</strong></div>
               </v-col>
               <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="dayOfWeek"
+                  v-model="weekday"
                   label="0-7 (0 or 7 is Sun, or use names)"
                   dense
                   outlined
                   solo
                   @change="
-                    inforTime(
-                      $constants.TIME_TYPE.DAYOFWEEK,
-                      dayOfWeek,
-                      'Month'
-                    )
+                    inforTime($constants.TIME_TYPE.WEEKDAY, weekday, 'Weekday')
                   "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtDayOfWeek" outlined dense readonly>
+                <v-text-field v-model="txtWEEKDAY" outlined dense readonly>
                 </v-text-field>
               </v-col>
-              <v-col class="py-0 ">
-                <v-btn class="float-right" color="success"
+              <v-col class="col col-11 py-0">
+                <v-btn class="float-right mr-0" color="success"
                   >Add New Cron Job</v-btn
                 >
               </v-col>
@@ -152,13 +148,13 @@ export default {
       hour: "",
       day: "",
       month: "",
-      dayOfWeek: "",
+      weekday: "",
       txtSecond: "",
       txtMinute: "",
       txtHour: "",
       txtDay: "",
       txtMonth: "",
-      txtDayOfWeek: "",
+      txtWEEKDAY: "",
     }
   },
   computed: {},
@@ -180,8 +176,8 @@ export default {
         case TIME_TYPE.MONTH:
           this.txtMonth = this.convertInforText(type, timeCurrent, nextTime)
           break
-        case TIME_TYPE.DAYOFWEEK:
-          this.txtDayOfWeek = this.convertInforText(type, timeCurrent, nextTime)
+        case TIME_TYPE.WEEKDAY:
+          this.txtWEEKDAY = this.convertInforText(type, timeCurrent, nextTime)
           break
         default:
           break
@@ -195,8 +191,9 @@ export default {
         const toTime = timeCurrent.substring(timeCurrent.length - 1)
         txt = "Once Every " + toTime + " " + nextTime
       } else if (timeCurrent.includes("-")) {
-        const fromTime = timeCurrent.substring(0, 1)
-        const toTime = timeCurrent.substring(timeCurrent.length - 1)
+        const length = timeCurrent.indexOf("-")
+        const fromTime = timeCurrent.substring(0, length)
+        const toTime = timeCurrent.substring(length + 1, timeCurrent.length)
         txt =
           "Every 1 " +
           nextTime +
@@ -206,8 +203,12 @@ export default {
           toTime
       } else if (timeCurrent.includes(",")) {
         const toTime = timeCurrent.split(",") // [1, 5 ,3 , 7]
-        txt = "Every At " + toTime + " " + nextTime
-      } else {
+        // txt = "Every At " + toTime + " " + nextTime
+        let prepositions = "At the "
+        if ((type = TIME_TYPE.MONTH)) {
+          prepositions = "On the "
+        }
+        txt = prepositions + toTime + " of the " + nextTime
       }
       return txt
     },
