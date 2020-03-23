@@ -7,27 +7,72 @@
     >
       <v-row justify="center">
         <v-col cols="12" lg="6" style="border: 1px solid #000">
-          <div class="headline text-left">Add new cron job</div>
+          <div class="headline text-left">Schedule details</div>
+          <v-card color="#385F73" dark>
+            <v-card-title class="headline mt-0">Cron Ranges</v-card-title>
+            <v-card-subtitle class="mt-0"
+              >When specifying your cron values you'll need to make sure that
+              your values fall within the ranges. For instance, some cron's use
+              a 0-6 range for the day of week where both 0 and 7 represent
+              Sunday. We do not. And that is an optimisation.</v-card-subtitle
+            >
+            <v-row>
+              <v-col cols="12" md="6">
+                <template v-for="item in inforCron">
+                  <v-card-subtitle :key="item.id" class="pt-0">{{
+                    item.text
+                  }}</v-card-subtitle>
+                </template>
+              </v-col>
+              <v-col cols="12" md="6">
+                <template v-for="(item, index) in inforCharCron">
+                  <v-card-subtitle :key="index" class="pt-0">{{
+                    item
+                  }}</v-card-subtitle>
+                </template>
+              </v-col>
+            </v-row>
+          </v-card>
+
           <form ref="formCronJob">
             <v-row>
+              <v-col class="pb-0" cols="12" offset-md="2">
+                <div><strong>Type:</strong></div>
+              </v-col>
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
+                <v-select
+                  v-model="dataCronJob.selectCronJob"
+                  :items="typeCronjobs"
+                  label="Type cron job"
+                  data-vv-name="select"
+                  outlined
+                  dense
+                  required
+                ></v-select>
+              </v-col>
               <v-col class="pb-0" cols="12" offset-md="2">
                 <div><strong>Second:</strong></div>
               </v-col>
               <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="second"
+                  v-model="dataCronJob.second"
                   label="0-59"
                   placeholder="*"
                   dense
                   outlined
                   solo
+                  :rules="[rules.second]"
                   @change="
-                    inforTime($constants.TIME_TYPE.SECOND, second, 'Minute')
+                    inforTime(
+                      $constants.TIME_TYPE.SECOND,
+                      dataCronJob.second,
+                      'Minute'
+                    )
                   "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtSecond" outlined dense readonly>
+                <v-text-field v-model="txtSecond" dense readonly>
                 </v-text-field>
               </v-col>
               <v-col class="pb-0" cols="12" offset-md="2">
@@ -35,18 +80,23 @@
               </v-col>
               <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="minute"
+                  v-model="dataCronJob.minute"
                   label="0-59"
                   dense
                   outlined
                   solo
+                  :rules="[rules.second]"
                   @change="
-                    inforTime($constants.TIME_TYPE.MINUTE, minute, 'Hour')
+                    inforTime(
+                      $constants.TIME_TYPE.MINUTE,
+                      dataCronJob.minute,
+                      'Hour'
+                    )
                   "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtMinute" outlined dense readonly>
+                <v-text-field v-model="txtMinute" dense readonly>
                 </v-text-field>
               </v-col>
               <v-col class="pb-0" cols="12" offset-md="2">
@@ -54,17 +104,23 @@
               </v-col>
               <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="hour"
+                  v-model="dataCronJob.hour"
                   label="0-23"
                   dense
                   outlined
                   solo
-                  @change="inforTime($constants.TIME_TYPE.HOUR, hour, 'Day')"
+                  :rules="[rules.hour]"
+                  @change="
+                    inforTime(
+                      $constants.TIME_TYPE.HOUR,
+                      dataCronJob.hour,
+                      'Day'
+                    )
+                  "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtHour" outlined dense readonly>
-                </v-text-field>
+                <v-text-field v-model="txtHour" dense readonly> </v-text-field>
               </v-col>
 
               <v-col class="pb-0" cols="12" offset-md="2">
@@ -72,17 +128,23 @@
               </v-col>
               <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="day"
+                  v-model="dataCronJob.day"
                   label="1-31"
                   dense
                   outlined
                   solo
-                  @change="inforTime($constants.TIME_TYPE.DAY, day, 'Month')"
+                  :rules="[rules.dayOfMonth]"
+                  @change="
+                    inforTime(
+                      $constants.TIME_TYPE.DAY,
+                      dataCronJob.day,
+                      'Month'
+                    )
+                  "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtDay" outlined dense readonly>
-                </v-text-field>
+                <v-text-field v-model="txtDay" dense readonly> </v-text-field>
               </v-col>
 
               <v-col class="pb-0" cols="12" offset-md="2">
@@ -90,19 +152,23 @@
               </v-col>
               <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="month"
-                  label="0-12 (or names, see below)"
+                  v-model="dataCronJob.month"
+                  label="1-12 (or names, see below)"
                   dense
                   outlined
                   solo
+                  :rules="[rules.month]"
                   @change="
-                    inforTime($constants.TIME_TYPE.MONTH, month, 'Month')
+                    inforTime(
+                      $constants.TIME_TYPE.MONTH,
+                      dataCronJob.month,
+                      'Month'
+                    )
                   "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtMonth" outlined dense readonly>
-                </v-text-field>
+                <v-text-field v-model="txtMonth" dense readonly> </v-text-field>
               </v-col>
 
               <v-col class="pb-0" cols="12" offset-md="2">
@@ -110,22 +176,36 @@
               </v-col>
               <v-col class="py-0" cols="12" md="3" offset-md="2">
                 <v-text-field
-                  v-model="weekday"
-                  label="0-7 (0 or 7 is Sun, or use names)"
+                  v-model="dataCronJob.weekday"
+                  label="0-6 (0 or 6 is Sun, or use names)"
                   dense
                   outlined
                   solo
+                  :rules="[rules.dayOfWeek]"
                   @change="
-                    inforTime($constants.TIME_TYPE.WEEKDAY, weekday, 'Weekday')
+                    inforTime(
+                      $constants.TIME_TYPE.WEEKDAY,
+                      dataCronJob.weekday,
+                      'Weekday'
+                    )
                   "
                 ></v-text-field>
               </v-col>
               <v-col class="py-0" cols="12" md="6">
-                <v-text-field v-model="txtWEEKDAY" outlined dense readonly>
+                <v-text-field v-model="txtWEEKDAY" dense readonly>
                 </v-text-field>
               </v-col>
+              <v-col class="py-0" cols="12" md="3" offset-md="2">
+                Cron Expression
+              </v-col>
+              <v-col class="py-0" cols="12" md="6">
+                <v-text-field v-model="cronExp" dense readonly> </v-text-field>
+              </v-col>
               <v-col class="col col-11 py-0">
-                <v-btn class="float-right mr-0" color="success"
+                <v-btn
+                  class="float-right mr-0"
+                  color="success"
+                  @click="submitForm()"
                   >Add New Cron Job</v-btn
                 >
               </v-col>
@@ -143,41 +223,121 @@ export default {
   name: "SettingCronJob",
   data() {
     return {
-      second: "",
-      minute: "",
-      hour: "",
-      day: "",
-      month: "",
-      weekday: "",
-      txtSecond: "",
-      txtMinute: "",
-      txtHour: "",
-      txtDay: "",
-      txtMonth: "",
-      txtWEEKDAY: "",
+      dataCronJob: {
+        second: "*",
+        minute: "*",
+        hour: "*",
+        day: "*",
+        month: "*",
+        weekday: "*",
+        selectCronJob: null,
+      },
+      txtSecond: "Every Second (*)",
+      txtMinute: "Every Minute (*)",
+      txtHour: "Every Hour (*)",
+      txtDay: "Every Day (*)",
+      txtMonth: "Every Month (*)",
+      txtWEEKDAY: "Every Weekday (*)",
+      inforCron: [
+        {
+          id: "second",
+          text: "Seconds: 0-59",
+        },
+        {
+          id: "minute",
+          text: "Minutes: 0-59",
+        },
+        {
+          id: "hour",
+          text: "Hours: 0-59",
+        },
+        {
+          id: "dayOfMonth",
+          text: "Day of Month: 1-31",
+        },
+        {
+          id: "months",
+          text: "Months: 1-12",
+        },
+        {
+          id: "dayOfWeek",
+          text: "Day of Week: 0-6",
+        },
+      ],
+      inforCharCron: [
+        "*	: any value,",
+        " ,	: value list separator",
+        "-	: range of values",
+        "/	: step values",
+      ],
+
+      typeCronjobs: ["user", "project", "sync"],
+      cronExp: "* * * * * *",
+      rules: {
+        required: value => !!value || "Field is required.",
+        requiredTypeCron: value => !!value || "Type Cron Job is required.",
+        second: value => {
+          const pattern = /((\*|[0-5]?[0-9]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          return pattern.test(value) || "Has to be between 0-59"
+        },
+        hour: value => {
+          const pattern = /((\*|[01]?[0-9]|2[0-3]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          return pattern.test(value) || "Has to be between 0-23"
+        },
+        dayOfMonth: value => {
+          const pattern = /((\*|[01]?[0-9]|3[0-1]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          return pattern.test(value) || "Has to be between 1-31"
+        },
+        month: value => {
+          const pattern = /((\*|[01]?[0-9]|1[0-1]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          return pattern.test(value) || "Month must be 0-11"
+        },
+        dayOfWeek: value => {
+          const pattern = /((\*|[0-6]|\*\/[0-9]?[0-9]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          return pattern.test(value) || "Day of week must be 0-6"
+        },
+      },
     }
   },
   computed: {},
   methods: {
     inforTime(type, timeCurrent, nextTime) {
+      const txtCronExp =
+        this.dataCronJob.second +
+        " " +
+        this.dataCronJob.minute +
+        " " +
+        this.dataCronJob.hour +
+        " " +
+        this.dataCronJob.day +
+        " " +
+        this.dataCronJob.month +
+        " " +
+        this.dataCronJob.weekday
       switch (type) {
         case TIME_TYPE.SECOND:
           this.txtSecond = this.convertInforText(type, timeCurrent, nextTime)
+          this.cronExp = txtCronExp
           break
         case TIME_TYPE.MINUTE:
           this.txtMinute = this.convertInforText(type, timeCurrent, nextTime)
+          this.cronExp = txtCronExp
           break
         case TIME_TYPE.HOUR:
           this.txtHour = this.convertInforText(type, timeCurrent, nextTime)
+          this.cronExp = txtCronExp
           break
         case TIME_TYPE.DAY:
           this.txtDay = this.convertInforText(type, timeCurrent, nextTime)
+          this.cronExp = txtCronExp
           break
         case TIME_TYPE.MONTH:
           this.txtMonth = this.convertInforText(type, timeCurrent, nextTime)
+          this.cronExp = txtCronExp
           break
         case TIME_TYPE.WEEKDAY:
           this.txtWEEKDAY = this.convertInforText(type, timeCurrent, nextTime)
+          this.cronExp = txtCronExp
           break
         default:
           break
@@ -212,8 +372,17 @@ export default {
       }
       return txt
     },
+
+    submitForm() {
+      console.log(11, this.dataCronJob)
+    },
   },
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.v-card__subtitle {
+  margin-top: 0;
+  padding-top: 0;
+}
+</style>
