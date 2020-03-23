@@ -162,7 +162,7 @@
                     inforTime(
                       $constants.TIME_TYPE.MONTH,
                       dataCronJob.month,
-                      'Month'
+                      'Year'
                     )
                   "
                 ></v-text-field>
@@ -270,7 +270,29 @@ export default {
         "-	: range of values",
         "/	: step values",
       ],
-
+      arrayMonth: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+      daysInWeek: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
       typeCronjobs: ["user", "project", "sync"],
       cronExp: "* * * * * *",
       rules: {
@@ -346,29 +368,65 @@ export default {
     convertInforText(type, timeCurrent, nextTime) {
       let txt = ""
       if (timeCurrent === "*") {
+        // case "*"
         txt = "Once Per " + nextTime
-      } else if (timeCurrent.includes("*/")) {
+      } else {
+        if (type === TIME_TYPE.SECOND || type === TIME_TYPE.MINUTE) {
+          txt = "At " + type.toLocaleLowerCase() + " " + timeCurrent
+        } else if (type === TIME_TYPE.HOUR) {
+          txt = "Pass hour " + timeCurrent
+        } else if (type === TIME_TYPE.DAY) {
+          txt = "On day of month " + timeCurrent
+        } else if (type === TIME_TYPE.MONTH) {
+          txt = "In " + this.arrayMonth[timeCurrent]
+        } else {
+          txt = "On " + this.daysInWeek[timeCurrent]
+        }
+      }
+
+      if (timeCurrent.includes("*/")) {
+        // case "/*"
         const toTime = timeCurrent.substring(timeCurrent.length - 1)
         txt = "Once Every " + toTime + " " + nextTime
+        if (type === TIME_TYPE.MONTH) {
+          console.log(111)
+        }
       } else if (timeCurrent.includes("-")) {
+        // case "-"
         const length = timeCurrent.indexOf("-")
-        const fromTime = timeCurrent.substring(0, length)
-        const toTime = timeCurrent.substring(length + 1, timeCurrent.length)
-        txt =
-          "Every 1 " +
-          nextTime +
-          " in the range time of " +
-          fromTime +
-          " to " +
-          toTime
+        const fromTime = parseInt(timeCurrent.substring(0, length))
+        const toTime = parseInt(
+          timeCurrent.substring(length + 1, timeCurrent.length)
+        )
+        if (type === TIME_TYPE.MONTH) {
+          txt =
+            "Every " +
+            nextTime +
+            " in the range time of " +
+            this.arrayMonth[fromTime] +
+            " to " +
+            this.arrayMonth[toTime]
+        } else if (type === TIME_TYPE.WEEKDAY) {
+          txt =
+            "Every day-of-week from " +
+            this.daysInWeek[fromTime] +
+            " through " +
+            this.daysInWeek[toTime]
+        }
       } else if (timeCurrent.includes(",")) {
+        // case ","
         const toTime = timeCurrent.split(",") // [1, 5 ,3 , 7]
-        // txt = "Every At " + toTime + " " + nextTime
         let prepositions = "At the "
+        let convertData = ""
         if ((type = TIME_TYPE.MONTH)) {
           prepositions = "On the "
+          convertData = toTime.map(x => this.arrayMonth[x])
         }
-        txt = prepositions + toTime + " of the " + nextTime
+        if ((type = TIME_TYPE.WEEKDAY)) {
+          prepositions = "On the "
+          convertData = toTime.map(x => this.daysInWeek[x])
+        }
+        txt = prepositions + convertData + " of the " + nextTime
       }
       return txt
     },
