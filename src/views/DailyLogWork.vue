@@ -14,6 +14,66 @@
       <v-row justify="center">
         <v-col cols="12" lg="2">
           <v-menu
+            v-model="menu3"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="dayLogWork"
+                label="Day Working Log"
+                append-icon="mdi-calendar"
+                outlined
+                readonly
+                @blur="formData.startDateCreated = parseDate(dayLogWork)"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="formData.startDateCreated"
+              @input="menu3 = false"
+            ></v-date-picker>
+          </v-menu>
+          <p>
+            Day Working Log: <strong>{{ formData.startDateCreated }}</strong>
+          </p>
+        </v-col>
+
+        <v-col cols="12" lg="2">
+          <v-menu
+            v-model="menu4"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="endDayLogWork"
+                label="Day Working Log"
+                append-icon="mdi-calendar"
+                outlined
+                readonly
+                @blur="formData.endDateCreated = parseDate(endDayLogWork)"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="formData.endDateCreated"
+              @input="menu4 = false"
+            ></v-date-picker>
+          </v-menu>
+          <p>
+            End day Working Log: <strong>{{ formData.endDateCreated }}</strong>
+          </p>
+        </v-col>
+
+        <v-col cols="12" lg="2">
+          <v-menu
             v-model="menu1"
             :close-on-content-click="false"
             :nudge-right="40"
@@ -136,8 +196,12 @@ export default {
           .format("YYYY-MM-DD")
       ),
       endDateFormatted: moment().format("DD/MM/YYYY"),
+      dayLogWork: "",
+      endDayLogWork: "",
       menu1: false,
       menu2: false,
+      menu3: false,
+      menu4: false,
     }
   },
 
@@ -147,6 +211,12 @@ export default {
     },
     computedEndDateFormatted() {
       return this.formatDate(this.formData.endDate)
+    },
+    dayLogWorkFormatted() {
+      return this.formatDate(this.formData.startDateCreated)
+    },
+    endDayLogWorkFormatted() {
+      return this.formatDate(this.formData.endDateCreated)
     },
     listProjectJira() {
       return this.$store.state.listProjectJira
@@ -161,6 +231,12 @@ export default {
     },
     "formData.endDate"(val) {
       this.endDateFormatted = this.formatDate(this.formData.endDate)
+    },
+    "formData.startDateCreated"(val) {
+      this.dayLogWork = this.formatDate(this.formData.startDateCreated)
+    },
+    "formData.endDateCreated"(val) {
+      this.endDayLogWork = this.formatDate(this.formData.endDateCreated)
     },
   },
 
