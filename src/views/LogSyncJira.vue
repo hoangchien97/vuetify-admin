@@ -5,7 +5,7 @@
 
     <base-material-card
       icon="mdi-clipboard-text"
-      title="Log Sync"
+      title="Log Sync Jira"
       class="px-5 py-3"
     >
       <v-row justify="center">

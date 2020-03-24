@@ -36,11 +36,11 @@ export default new Router({
           path: "daily-logwork",
           component: () => import("@/views/DailyLogWork"),
         },
-        // Log Sync
+        // Log Sync-Jira
         {
-          name: "Log Sync",
-          path: "log-sync",
-          component: () => import("@/views/LogSync"),
+          name: "Log Sync-Jira",
+          path: "log-sync-jira",
+          component: () => import("@/views/LogSyncJira"),
         },
         // Setting-Cron-Job
         {

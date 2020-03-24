@@ -100,8 +100,8 @@ export default {
       },
       {
         icon: "mdi-sync",
-        title: "Log Sync",
-        to: "/log-sync",
+        title: "Log Sync Jira",
+        to: "/log-sync-jira",
       },
       {
         icon: "mdi-emby",
