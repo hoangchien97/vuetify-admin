@@ -34,7 +34,7 @@
             </v-row>
           </v-card>
 
-          <form ref="formCronJob">
+          <v-form ref="formCronJob" v-model="valid" lazy-validation>
             <v-row>
               <v-col class="pb-0" cols="12" offset-md="2">
                 <div><strong>Type:</strong></div>
@@ -45,6 +45,7 @@
                   :items="typeCronjobs"
                   label="Type cron job"
                   data-vv-name="select"
+                  :rules="[rules.required]"
                   outlined
                   dense
                   required
@@ -205,12 +206,13 @@
                 <v-btn
                   class="float-right mr-0"
                   color="success"
-                  @click="submitForm()"
+                  :disabled="!valid"
+                  @click="submitForm"
                   >Add New Cron Job</v-btn
                 >
               </v-col>
             </v-row>
-          </form>
+          </v-form>
         </v-col>
       </v-row>
     </base-material-card>
@@ -223,6 +225,7 @@ export default {
   name: "SettingCronJob",
   data() {
     return {
+      valid: true,
       dataCronJob: {
         second: "*",
         minute: "*",
@@ -295,27 +298,33 @@ export default {
       ],
       typeCronjobs: ["user", "project", "sync"],
       cronExp: "* * * * * *",
+      arrChar: ["*", ",", "-", "/"],
       rules: {
         required: value => !!value || "Field is required.",
         requiredTypeCron: value => !!value || "Type Cron Job is required.",
+        numberRule: v => {
+          if (!v.trim()) return true
+          if (!isNaN(parseFloat(v)) && v >= 0 && v <= 59) return true
+          return "Number has to be between 0 and 59"
+        },
         second: value => {
-          const pattern = /((\*|[0-5]?[0-9]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          const pattern = /((\*|[0-5]?[0-9]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/gi
           return pattern.test(value) || "Has to be between 0-59"
         },
         hour: value => {
-          const pattern = /((\*|[01]?[0-9]|2[0-3]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          const pattern = /((\*|[01]?[0-9]|2[0-3]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/gi
           return pattern.test(value) || "Has to be between 0-23"
         },
         dayOfMonth: value => {
-          const pattern = /((\*|[01]?[0-9]|3[0-1]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          const pattern = /((\*|[01]?[0-9]|3[0-1]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/gi
           return pattern.test(value) || "Has to be between 1-31"
         },
         month: value => {
-          const pattern = /((\*|[01]?[0-9]|1[0-1]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          const pattern = /((\*|[01]?[0-9]|1[0-1]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/gi
           return pattern.test(value) || "Month must be 0-11"
         },
         dayOfWeek: value => {
-          const pattern = /((\*|[0-6]|\*\/[0-9]?[0-9]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/
+          const pattern = /((\*|[0-6]|\*\/[0-9]?[0-9]|\*\/[0-9]?[0-9]|[0-9]?[0-9]-[0-9]?[0-9])){1}$/gi
           return pattern.test(value) || "Day of week must be 0-6"
         },
       },
@@ -369,7 +378,8 @@ export default {
       let txt = ""
       if (timeCurrent === "*") {
         // case "*"
-        txt = "Once Per " + nextTime
+
+        txt = "Every " + nextTime + "*"
       } else {
         if (type === TIME_TYPE.SECOND || type === TIME_TYPE.MINUTE) {
           txt = "At " + type.toLocaleLowerCase() + " " + timeCurrent
@@ -432,7 +442,15 @@ export default {
     },
 
     submitForm() {
-      console.log(11, this.dataCronJob)
+      const valid = this.$refs.formCronJob.validate()
+      if (!valid) {
+        // false
+        console.log(11, valid)
+      } else {
+        // true
+        console.log(22, valid)
+        console.log(333, this.dataCronJob)
+      }
     },
   },
 }
