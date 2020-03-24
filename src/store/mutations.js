@@ -13,4 +13,7 @@ export default {
   GET_LIST_PROJECT_JIRA(state, payload) {
     state.listProjectJira = payload.data
   },
+  GET_LOG_SYNC(state, payload) {
+    state.listLogSync = payload.data
+  },
 }

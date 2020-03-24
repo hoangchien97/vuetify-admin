@@ -86,12 +86,13 @@
             single-line
           ></v-select>
         </v-col>
-        <v-col cols="12" lg="4">
+        <v-col cols="12" lg="3">
           <v-text-field
             v-model="formData.txtSearch"
             name="Search"
             :label="$t('search')"
             hide-details
+            append-icon="mid-search"
             @input="search()"
           >
             <template v-slot:append-outer>
@@ -115,10 +116,16 @@ export default {
   data() {
     return {
       formData: {
+        // startDate: "2020-03-20" - ngay lam viec // working-day
+        // startDateCreated: "2020-03-28" - ngay log work ( log muon ) // day-working-log
+        // endDate : get data tu ngay lam viec den hom nay
+        // endDateCreated: ngay log work tu ngay nao den ngay nao
         startDate: moment()
           .subtract(1, "days")
           .format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
+        startDateCreated: "",
+        endDateCreated: "",
         txtSearch: "",
         jira_project: "",
       },
@@ -144,6 +151,9 @@ export default {
     listProjectJira() {
       return this.$store.state.listProjectJira
     },
+    listLogSync() {
+      return this.$store.state.listLogSync
+    },
   },
   watch: {
     "formData.startDate"(val) {
@@ -156,6 +166,7 @@ export default {
 
   async created() {
     await this.getProjectJira()
+    await this.getLogSync()
   },
 
   methods: {
@@ -171,6 +182,9 @@ export default {
     },
     async getProjectJira() {
       await this.$store.dispatch("getListProjectJira")
+    },
+    async getLogSync(data) {
+      await this.$store.dispatch("getLogSync", data)
     },
   },
 }

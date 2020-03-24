@@ -64,4 +64,8 @@ export default {
   getListProjectJira(data) {
     return this.doGet("/project/get", data)
   },
+
+  getLogSync(data) {
+    return this.doPost("/getLogSync", data)
+  },
 }

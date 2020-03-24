@@ -7,4 +7,5 @@ export default {
   drawer: null,
   listLogSyncJira: null,
   listProjectJira: null,
+  listLogSync: null,
 }
