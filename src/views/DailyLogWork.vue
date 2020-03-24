@@ -23,16 +23,18 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="formData.startDate"
+                v-model="startDateFormatted"
                 label="Start Date"
                 append-icon="mdi-calendar"
                 outlined
                 readonly
+                @blur="formData.startDate = parseDate(startDateFormatted)"
                 v-on="on"
               ></v-text-field>
             </template>
             <v-date-picker
               v-model="formData.startDate"
+              :max="formData.endDate"
               @input="menu1 = false"
             ></v-date-picker>
           </v-menu>
@@ -51,16 +53,19 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="formData.endDate"
+                v-model="endDateFormatted"
                 label="End Date"
                 append-icon="mdi-calendar"
                 outlined
                 readonly
+                @blur="formData.endDate = parseDate(endDateFormatted)"
                 v-on="on"
               ></v-text-field>
             </template>
             <v-date-picker
               v-model="formData.endDate"
+              :min="formData.startDate"
+              :max="dayNow"
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
@@ -70,22 +75,20 @@
         </v-col>
         <v-col cols="12" lg="2">
           <!-- https://vuetifyjs.com/en/components/selects/ -->
-          <!-- // required -->
           <v-select
-            v-model="selectProj"
+            v-model="formData.jira_project"
             outlined
-            :items="items"
-            item-text="name"
-            item-value="id"
+            :items="listProjectJira"
+            item-text="JIRA_ProjectKey"
+            item-value="JIRA_ProjectID"
             label="Project Jira"
             persistent-hint
-            return-object
             single-line
           ></v-select>
         </v-col>
         <v-col cols="12" lg="4">
           <v-text-field
-            v-model="txtSearch"
+            v-model="formData.txtSearch"
             name="Search"
             :label="$t('search')"
             hide-details
@@ -97,7 +100,6 @@
               </v-btn>
             </template>
           </v-text-field>
-          <!-- <v-text-field @click:append-outer="sendMessage"> </v-text-field> -->
         </v-col>
       </v-row>
       <v-row> </v-row>
@@ -117,22 +119,60 @@ export default {
           .subtract(1, "days")
           .format("YYYY-MM-DD"),
         endDate: moment().format("YYYY-MM-DD"),
+        txtSearch: "",
+        jira_project: "",
       },
+      dayNow: moment().format("YYYY-MM-DD"),
+      startDateFormatted: this.formatDate(
+        moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD")
+      ),
+      endDateFormatted: moment().format("DD/MM/YYYY"),
       menu1: false,
       menu2: false,
-      selectProj: null,
-      items: [
-        { id: "1", name: "Superfanz" },
-        { id: "2", name: "CY" },
-        { id: "3", name: "Wanna Train" },
-      ],
-      txtSearch: "",
     }
   },
 
-  computed: {},
+  computed: {
+    computedStartDateFormatted() {
+      return this.formatDate(this.formData.startDate)
+    },
+    computedEndDateFormatted() {
+      return this.formatDate(this.formData.endDate)
+    },
+    listProjectJira() {
+      return this.$store.state.listProjectJira
+    },
+  },
+  watch: {
+    "formData.startDate"(val) {
+      this.startDateFormatted = this.formatDate(this.formData.startDate)
+    },
+    "formData.endDate"(val) {
+      this.endDateFormatted = this.formatDate(this.formData.endDate)
+    },
+  },
 
-  watch: {},
+  async created() {
+    await this.getProjectJira()
+  },
+
+  methods: {
+    formatDate(date) {
+      if (!date) return null
+      const [year, month, day] = date.split("-")
+      return `${day}/${month}/${year}`
+    },
+    parseDate(date) {
+      if (!date) return null
+      const [day, month, year] = date.split("/")
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
+    },
+    async getProjectJira() {
+      await this.$store.dispatch("getListProjectJira")
+    },
+  },
 }
 </script>
 

@@ -162,6 +162,12 @@ export default {
     listLogSyncJira() {
       return this.$store.state.listLogSyncJira
     },
+    computedStartDateFormatted() {
+      return this.formatDate(this.formData.startDate)
+    },
+    computedEndDateFormatted() {
+      return this.formatDate(this.formData.endDate)
+    },
   },
   watch: {
     "formData.startDate"(val) {

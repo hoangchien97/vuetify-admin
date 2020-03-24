@@ -15,4 +15,16 @@ export default {
       console.log("error", error)
     }
   },
+  async getListProjectJira({ commit }, params) {
+    try {
+      const res = await api.getListProjectJira()
+      if (res.data.status === RESPONSE_API.SUCCESS) {
+        commit("GET_LIST_PROJECT_JIRA", res.data)
+      } else {
+        console.log("faild")
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
+  },
 }
