@@ -23,7 +23,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="startDate"
+                v-model="formData.startDate"
                 label="Start Date"
                 append-icon="mdi-calendar"
                 outlined
@@ -32,12 +32,12 @@
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="startDate"
+              v-model="formData.startDate"
               @input="menu1 = false"
             ></v-date-picker>
           </v-menu>
           <p>
-            Start Date: <strong>{{ startDate }}</strong>
+            Start Date: <strong>{{ formData.startDate }}</strong>
           </p>
         </v-col>
         <v-col cols="12" lg="2">
@@ -51,7 +51,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="endDate"
+                v-model="formData.endDate"
                 label="End Date"
                 append-icon="mdi-calendar"
                 outlined
@@ -60,12 +60,12 @@
               ></v-text-field>
             </template>
             <v-date-picker
-              v-model="endDate"
+              v-model="formData.endDate"
               @input="menu2 = false"
             ></v-date-picker>
           </v-menu>
           <p>
-            End Date: <strong>{{ endDate }}</strong>
+            End Date: <strong>{{ formData.endDate }}</strong>
           </p>
         </v-col>
         <v-col cols="12" lg="2">
@@ -112,10 +112,12 @@ export default {
   name: "DailyLogWork",
   data() {
     return {
-      startDate: moment()
-        .subtract(1, "days")
-        .format("YYYY-MM-DD"),
-      endDate: moment().format("YYYY-MM-DD"),
+      formData: {
+        startDate: moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD"),
+        endDate: moment().format("YYYY-MM-DD"),
+      },
       menu1: false,
       menu2: false,
       selectProj: null,
