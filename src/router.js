@@ -48,6 +48,11 @@ export default new Router({
           path: "setting-cron-job",
           component: () => import("@/views/SettingCronJob"),
         },
+        {
+          name: "List User",
+          path: "list-user",
+          component: () => import("@/views/UserMap"),
+        },
         // Noti
         {
           name: "Notifications",

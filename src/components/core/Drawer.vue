@@ -18,8 +18,10 @@
     <v-divider class="mb-1" />
 
     <v-list dense nav>
-      <v-list-item>
+      <v-list-item class="div-avatar">
         <v-list-item-avatar class="align-self-center" color="white" contain>
+          <!-- src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico" -->
+          <!-- <v-img :src="logoSavvy" max-height="30" /> -->
           <v-img
             src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico"
             max-height="30"
@@ -70,7 +72,7 @@
 <script>
 // Utilities
 import { mapState } from "vuex"
-
+import logoSavvy from "@/assets/Savvy.jpg"
 export default {
   name: "DashboardCoreDrawer",
 
@@ -82,6 +84,7 @@ export default {
   },
 
   data: () => ({
+    logoSavvy,
     items: [
       {
         icon: "mdi-view-dashboard",
@@ -107,6 +110,11 @@ export default {
         icon: "mdi-emby",
         title: "Setting Cron Job",
         to: "/setting-cron-job",
+      },
+      {
+        icon: "mdi-emby",
+        title: "List User",
+        to: "/list-user",
       },
       // {
       //   title: "Rtables",
@@ -233,4 +241,7 @@ export default {
 
         +rtl()
           margin-left: 8px
+  .div-avatar
+    v-reponsive
+      max-height: 100%
 </style>
