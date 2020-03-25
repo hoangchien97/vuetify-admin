@@ -147,8 +147,8 @@
             persistent-hint
             single-line
             clearable
-            @input="search()"
           ></v-select>
+          <!-- @input="search()" -->
         </v-col>
         <v-col cols="12" lg="2">
           <v-text-field
@@ -157,7 +157,6 @@
             :label="$t('search')"
             hide-details
             append-icon="mid-search"
-            @input="search()"
           >
             <template v-slot:append-outer>
               <v-btn class="mt-n2" elevation="1" fab small @click="search()">
