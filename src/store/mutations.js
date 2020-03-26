@@ -16,4 +16,18 @@ export default {
   GET_LOG_SYNC(state, payload) {
     state.listLogSync = payload.data
   },
+  SETTING_CRON_JOB(state, payload) {
+    state.cronJobSetting = payload.data
+  },
+  SETTING_CRON_JOB_FAILED(state, payload) {
+    state.msg.message = payload.message
+    state.msg.isShow = true
+    state.msg.color = "red"
+  },
+  // when create success
+  CREATE_SUCCESS(state, payload) {
+    state.msg.message = payload
+    state.msg.isShow = true
+    state.msg.color = "success"
+  },
 }

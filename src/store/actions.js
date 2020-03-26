@@ -39,4 +39,16 @@ export default {
       console.log("error", error)
     }
   },
+
+  async createCronJob({ commit }, params) {
+    try {
+      const res = await api.createCronJob(params)
+      if (res.data.code === 200) {
+        commit("SETTING_CRON_JOB", res.data)
+        commit("CREATE_SUCCESS", "Create setting cron job successfully")
+      }
+    } catch (error) {
+      commit("SETTING_CRON_JOB_FAILED", error.response.data)
+    }
+  },
 }

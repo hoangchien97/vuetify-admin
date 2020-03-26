@@ -1,16 +1,10 @@
 <template>
   <v-container>
-    <base-material-card color="success" class="px-5 py-3">
-      <template v-slot:heading>
-        <!-- <base-material-card
-          icon="mdi-clipboard-text"
-          title="Daily Log"
-          class="px-5 py-3"
-        > -->
-        <div class="display-2 font-weight-light text-center">
-          Daily Log Work
-        </div>
-      </template>
+    <base-material-card
+      icon="mdi-clipboard-text"
+      title="Log Sync"
+      class="px-5 py-3"
+    >
       <v-row justify="center">
         <v-col cols="12" lg="2">
           <v-menu
@@ -239,7 +233,6 @@ export default {
         { text: "Work Date", value: "date" },
         { text: "Sync Date", value: "createdAt" },
         { text: "Username Jira", value: "jira_username" },
-        { text: "Project Jira", value: "jira_project" },
         {
           text: "Username Timesheet",
           sortable: true,
@@ -247,6 +240,7 @@ export default {
           filterable: true,
           value: "svc_userid",
         },
+        { text: "Project Name", value: "project_name" },
         { text: "Project Timesheet", value: "svc_project" },
         { text: "Working Time", value: "workingtime" },
         { text: "Status", value: "description" },
@@ -271,7 +265,7 @@ export default {
       return this.$store.state.listProjectJira
     },
     listLogSync() {
-      return this.$store.state.listLogSync
+      return this.$store.state.listLogSync.logs
     },
     filteredItems() {
       return this.listLogSync.filter(i => {
@@ -361,7 +355,6 @@ export default {
 
     focusInput(nameRef) {
       this.$nextTick(() => {
-        console.log(11)
         this.$refs[nameRef].focus()
       })
     },

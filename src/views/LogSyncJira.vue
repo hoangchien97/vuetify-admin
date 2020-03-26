@@ -150,7 +150,7 @@ export default {
           sortable: false,
           value: "username",
         },
-        { text: "Project Name", value: "project_id" },
+        { text: "Project Name", value: "project_name" },
         { text: "Time Spent", value: "timeSpent" },
         { text: "Ticket", value: "description" },
         { text: "Reason", value: "reason" },

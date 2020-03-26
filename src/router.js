@@ -30,11 +30,11 @@ export default new Router({
           path: "change-password",
           component: () => import("@/views/users/ChangePassword"),
         },
-        // Daily Log Work
+        // Log Sync
         {
-          name: "Daily Log Work",
-          path: "daily-logwork",
-          component: () => import("@/views/DailyLogWork"),
+          name: "Log Sync",
+          path: "log-sync",
+          component: () => import("@/views/LogSync"),
         },
         // Log Sync-Jira
         {

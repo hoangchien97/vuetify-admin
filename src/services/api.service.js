@@ -68,4 +68,8 @@ export default {
   getLogSync(data) {
     return this.doPost("/getLogSync", data)
   },
+
+  createCronJob(data) {
+    return this.doPost("/cron/setting", data)
+  },
 }

@@ -95,8 +95,8 @@ export default {
       },
       {
         icon: "mdi-timetable",
-        title: "Daily Log Work",
-        to: "/daily-logwork",
+        title: "Log Sync",
+        to: "/log-sync",
       },
       {
         icon: "mdi-sync",
