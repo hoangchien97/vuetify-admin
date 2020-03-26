@@ -1,78 +1,76 @@
 <template>
   <v-container>
-    <base-v-component heading="Log Sync" link="components/simple-tables" />
-
     <base-material-card
       icon="mdi-clipboard-text"
-      title="Log Sync Jira"
+      title="List User Mapping"
       class="px-5 py-3"
     >
-      <v-app id="inspire">
-        <v-data-table
-          :headers="headers"
-          :items="listUserMap"
-          sort-by="calories"
-          class="elevation-1"
-        >
-          <template v-slot:top>
-            <v-toolbar flat color="white">
-              <v-dialog v-model="dialog" max-width="500px">
-                <v-card>
-                  <v-card-title>
-                    <span class="headline">{{ formTitle }}</span>
-                  </v-card-title>
+      <v-row justify="center">
+        <v-col cols="12">
+          <v-data-table
+            :headers="headers"
+            :items="listUserMap"
+            sort-by="calories"
+            class="elevation-1"
+          >
+            <template v-slot:top>
+              <v-toolbar flat color="white">
+                <v-dialog v-model="dialog" max-width="500px">
+                  <v-card>
+                    <v-card-title>
+                      <span class="headline">Update jira id</span>
+                    </v-card-title>
 
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12">
-                          <v-select
-                            v-model="externalId"
-                            :items="listUserConvert"
-                            label="Jira Id"
-                            dense
-                            clearable
-                          ></v-select>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-select
+                              v-model="externalId"
+                              :items="listUserConvert"
+                              label="Jira Id"
+                              dense
+                              clearable
+                            ></v-select>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
 
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="close"
-                      >Cancel</v-btn
-                    >
-                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-toolbar>
-          </template>
-          <template v-slot:item.external_id="{ item }">
-            <!-- {{ item }} -->
-            <template v-if="item.mapped.length > 0">
-              <template v-for="(map, index) in item.mapped">
-                <span :key="index"> {{ map.external_id }}</span>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="blue darken-1" text @click="close"
+                        >Cancel</v-btn
+                      >
+                      <v-btn color="blue darken-1" text @click="save"
+                        >Save</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-toolbar>
+            </template>
+            <template v-slot:item.external_id="{ item }">
+              <template v-if="item.mapped.length > 0">
+                <template v-for="(map, index) in item.mapped">
+                  <span :key="index"> {{ map.external_id }}</span>
+                </template>
+              </template>
+              <template v-else>
+                -
               </template>
             </template>
-            <template v-else>
-              -
+            <template v-slot:item.actions="{ item }">
+              <v-icon small @click="editItem(item)">
+                mdi-pencil
+              </v-icon>
             </template>
-          </template>
-          <template v-slot:item.actions="{ item }">
-            <v-icon small @click="editItem(item)">
-              mdi-pencil
-            </v-icon>
-            <!-- <v-icon small @click="deleteItem(item)">
-              mdi-delete
-            </v-icon> -->
-          </template>
-          <template v-slot:no-data>
-            <p>No result</p>
-          </template>
-        </v-data-table>
-      </v-app>
+            <template v-slot:no-data>
+              <p>No result</p>
+            </template>
+          </v-data-table>
+        </v-col>
+      </v-row>
     </base-material-card>
   </v-container>
 </template>
@@ -101,9 +99,6 @@ export default {
   }),
 
   computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item"
-    },
     listUserMap() {
       return this.$store.state.listUserMap
     },
@@ -127,14 +122,10 @@ export default {
       await this.getListUserExternal()
       await this.convertListExternal()
       this.userId = item ? item.id : ""
+      this.externalId =
+        item.mapped[0] !== undefined ? item.mapped[0].external_id : ""
       this.dialog = true
     },
-
-    // deleteItem(item) {
-    //   const index = this.desserts.indexOf(item)
-    //   confirm("Are you sure you want to delete this item?") &&
-    //     this.desserts.splice(index, 1)
-    // },
 
     close() {
       this.dialog = false
@@ -149,7 +140,7 @@ export default {
         user_id: this.userId,
         external_id: this.externalId,
       })
-      await this.$store.dispatch("userMapping", {...formData})
+      await this.$store.dispatch("userMapping", { ...formData })
       await this.getUserMap()
       this.close()
     },
