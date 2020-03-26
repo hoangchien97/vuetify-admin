@@ -10,7 +10,7 @@
       <v-app id="inspire">
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="listUserMap"
           sort-by="calories"
           class="elevation-1"
         >
@@ -27,10 +27,11 @@
                       <v-row>
                         <v-col cols="12">
                           <v-select
-                            v-model="editedItem.device_id"
-                            :items="items"
-                            label="Device Id"
+                            v-model="externalId"
+                            :items="listUserConvert"
+                            label="Jira Id"
                             dense
+                            clearable
                           ></v-select>
                         </v-col>
                       </v-row>
@@ -48,6 +49,17 @@
               </v-dialog>
             </v-toolbar>
           </template>
+          <template v-slot:item.external_id="{ item }">
+            <!-- {{ item }} -->
+            <template v-if="item.mapped.length > 0">
+              <template v-for="(map, index) in item.mapped">
+                <span :key="index"> {{ map.external_id }}</span>
+              </template>
+            </template>
+            <template v-else>
+              -
+            </template>
+          </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small @click="editItem(item)">
               mdi-pencil
@@ -57,7 +69,7 @@
             </v-icon> -->
           </template>
           <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
+            <p>No result</p>
           </template>
         </v-data-table>
       </v-app>
@@ -66,11 +78,12 @@
 </template>
 
 <script>
+import { DEFAULT_EXTERNAL } from "@/plugins/constants"
 export default {
   name: "UserMap",
   data: () => ({
     dialog: false,
-    items: [1, 2, 4, 10],
+    listUserConvert: [],
     headers: [
       {
         text: "Id",
@@ -80,28 +93,22 @@ export default {
       },
       { text: "Name", value: "name" },
       { text: "Email", value: "email" },
-      { text: "Device Id", value: "device_id" },
+      { text: "Jira Id", value: "external_id" },
       { text: "Actions", value: "actions", sortable: false },
     ],
-    desserts: [],
-    editedIndex: -1,
-    editedItem: {
-      id: 1,
-      name: "Chiến Hoàng",
-      email: "chien.hoang@savvycomsoftware.com",
-      device_id: 4,
-    },
-    defaultItem: {
-      id: "",
-      name: "",
-      email: "",
-      device_id: "",
-    },
+    userId: "",
+    externalId: "",
   }),
 
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item"
+    },
+    listUserMap() {
+      return this.$store.state.listUserMap
+    },
+    listUserExternal() {
+      return this.$store.state.listUserExternal
     },
   },
 
@@ -111,31 +118,15 @@ export default {
     },
   },
 
-  created() {
-    this.initialize()
+  async created() {
+    await this.getUserMap()
   },
 
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          id: 1,
-          name: "Chiến Hoàng",
-          email: "chien.hoang@savvycomsoftware.com",
-          device_id: 4,
-        },
-        {
-          id: 2,
-          name: "Nam Nguyen",
-          email: "nam.nguyenphuong@savvycomsoftware.com",
-          device_id: 3,
-        },
-      ]
-    },
-
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item)
-      this.editedItem = Object.assign({}, item)
+    async editItem(item) {
+      await this.getListUserExternal()
+      await this.convertListExternal()
+      this.userId = item ? item.id : ""
       this.dialog = true
     },
 
@@ -148,18 +139,34 @@ export default {
     close() {
       this.dialog = false
       setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       }, 300)
     },
 
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
-      } else {
-        this.desserts.push(this.editedItem)
-      }
+    async save() {
+      /* eslint-disable */
+      const formData = new Object({
+        user_id: this.userId,
+        external_id: this.externalId,
+      })
+      await this.$store.dispatch("userMapping", {...formData})
+      await this.getUserMap()
       this.close()
+    },
+    async getUserMap() {
+      await this.$store.dispatch("listUserMap")
+    },
+    async getListUserExternal() {
+      await this.$store.dispatch("getListUserExternal")
+    },
+
+    convertListExternal() {
+      this.listUserConvert = this.listUserExternal.map(item => {
+        if (item.name.includes(DEFAULT_EXTERNAL.CHAR_USER_JIRA)) {
+          const strJiraLength = DEFAULT_EXTERNAL.CHAR_USER_JIRA.length
+          return item.name.substr(strJiraLength, item.name.length)
+        }
+      })
     },
   },
 }

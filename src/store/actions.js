@@ -43,12 +43,45 @@ export default {
   async createCronJob({ commit }, params) {
     try {
       const res = await api.createCronJob(params)
-      if (res.data.code === 200) {
+      if (res.data.status === RESPONSE_API.SUCCESS) {
         commit("SETTING_CRON_JOB", res.data)
         commit("CREATE_SUCCESS", "Create setting cron job successfully")
       }
     } catch (error) {
       commit("SETTING_CRON_JOB_FAILED", error.response.data)
+    }
+  },
+
+  async listUserMap({ commit }, params) {
+    try {
+      const res = await api.getListUserMap()
+      if (res.data.status === RESPONSE_API.SUCCESS) {
+        commit("GET_LIST_USER_MAP", res.data)
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
+  },
+
+  async getListUserExternal({ commit }, params) {
+    try {
+      const res = await api.getListUserExternal()
+      if (res.data.status === RESPONSE_API.SUCCESS) {
+        commit("GET_LIST_USER_EXTERNAL", res.data)
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
+  },
+
+  async userMapping({ commit }, params) {
+    try {
+      const res = await api.userMapping(params)
+      if (res.data.status === RESPONSE_API.SUCCESS) {
+        commit("CREATE_USER_MAPPING", res.data)
+      }
+    } catch (error) {
+      console.log("error", error)
     }
   },
 }

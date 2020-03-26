@@ -30,4 +30,14 @@ export default {
     state.msg.isShow = true
     state.msg.color = "success"
   },
+
+  GET_LIST_USER_MAP(state, payload) {
+    state.listUserMap = payload.data
+  },
+
+  GET_LIST_USER_EXTERNAL(state, payload) {
+    state.listUserExternal = payload.data
+  },
+
+  CREATE_USER_MAPPING(state, payload) {},
 }

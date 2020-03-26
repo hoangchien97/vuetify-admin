@@ -72,4 +72,16 @@ export default {
   createCronJob(data) {
     return this.doPost("/cron/setting", data)
   },
+
+  getListUserMap() {
+    return this.doGet("/user/getUser")
+  },
+
+  getListUserExternal() {
+    return this.doGet("/user/getExternalUser")
+  },
+
+  userMapping(data) {
+    return this.doPost("/user/mapping", data)
+  },
 }

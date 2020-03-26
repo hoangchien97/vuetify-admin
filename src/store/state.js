@@ -14,4 +14,6 @@ export default {
   listProjectJira: null,
   listLogSync: {},
   cronJobSetting: null,
+  listUserMap: [],
+  listUserExternal: [], // jiraId
 }
